@@ -1,7 +1,30 @@
+/* eslint-disable @next/next/no-img-element */
 import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card";
 import LeftSidebar from "./partials/LeftSidebar";
+import RightSidebar from "./partials/RightSidebar";
+import DateCarousel from "./partials/DateCarousal";
+import ScheduleComponent from "./partials/ScheduleComponent";
 
-const SportsData = [
+import {
+  Carousel,
+  CarouselContent,
+  CarouselItem,
+  CarouselNext,
+  CarouselPrevious,
+} from "@/components/ui/carousel";
+
+type SportsDataType = {
+  name: string;
+  image: string;
+};
+
+export type BlogDataType = {
+  image: string;
+  title: string;
+  description: string;
+};
+
+const SportsData: SportsDataType[] = [
   {
     name: "English Premier League",
     image:
@@ -74,20 +97,100 @@ const SportsData = [
   },
 ];
 
-export default function page() {
+const BlogData: BlogDataType[] = [
+  {
+    image:
+      "https://a4.espncdn.com/combiner/i?img=%2Fphoto%2F2025%2F0105%2Fr1434683_1296x729_16%2D9.jpg&w=272&h=153&scale=crop&cquality=80&location=origin",
+    title:
+      "Calendar 2025: World Championships, Cricket World Cups, Hockey Asia Cup and more",
+    description:
+      "Here's the 2025 sporting calendar to keep track of big tournaments and ESPN India's coverage.",
+  },
+
+  {
+    image:
+      "https://a3.espncdn.com/combiner/i?img=%2Fphoto%2F2024%2F1212%2Fr1427074_608x342_16%2D9.jpg&w=272&h=153&scale=crop&cquality=80&location=origin",
+    title: "ESPN India Awards 2024: Full list of winners",
+    description:
+      "From D Gukesh to Manu Bhaker, from Avani Lekhara to Harvinder Singh, we profile Indian sports' best in 2024.",
+  },
+
+  {
+    image:
+      "https://a1.espncdn.com/combiner/i?img=%2Fphoto%2F2024%2F0722%2Fr1361574_1296x729_16%2D9.jpg&w=272&h=153&scale=crop&cquality=80&location=origin",
+    title:
+      "India at the Olympics: Latest news, features, schedule, videos and analysis from Paris 2024",
+    description:
+      "Your one-stop shop for the latest news and features on Indians competing at the Olympic Games Paris 2024.",
+  },
+];
+
+const Events = [
+  {
+    name: "English Premier League",
+    image:
+      "https://a.espncdn.com/combiner/i?img=/i/leaguelogos/soccer/500/23.png&transparent=true&w=48&h=48",
+    events: [
+      {
+        team1: "Manchester United",
+        image1:
+          "https://upload.wikimedia.org/wikipedia/en/thumb/7/7a/Manchester_United_FC_crest.svg/250px-Manchester_United_FC_crest.svg.png",
+        score1: 2,
+
+        team2: "Liverpool",
+        image2:
+          "https://upload.wikimedia.org/wikipedia/en/thumb/0/0c/Liverpool_FC.svg/200px-Liverpool_FC.svg.png",
+        score2: 3,
+
+        venue: "Dignity Health Sports Park",
+        status: "Live • 67'",
+      },
+
+      {
+        team1: "Chelsea",
+        image1:
+          "https://upload.wikimedia.org/wikipedia/en/thumb/c/cc/Chelsea_FC.svg/215px-Chelsea_FC.svg.png",
+        score1: 2,
+
+        team2: "Arsenal",
+        image2:
+          "https://upload.wikimedia.org/wikipedia/en/thumb/5/53/Arsenal_FC.svg/250px-Arsenal_FC.svg.png",
+        score2: 3,
+
+        venue: "Old Trafford",
+        status: "Live • 67'",
+      },
+    ],
+  },
+];
+
+export default function Page() {
   return (
     <main>
-      <div className="container  mx-auto mt-5">
-        <h1 className="text-2xl font-bold">
+      <div className="container mx-auto my-5 px-4">
+        <h1 className="text-xl sm:text-2xl font-bold">
           Live Football Scores, Fixtures & Results | SOCCERKEEDA
         </h1>
 
-        <div className="grid grid-cols-12 mt-10">
-          <div className="col-span-2 ">
+        <div className="grid grid-cols-12 mt-10 gap-6">
+          {/* Left Sidebar */}
+          <div className="hidden xl:block xl:col-span-2">
             <LeftSidebar data={SportsData} />
           </div>
-          <div className="col-span-7 "></div>
-          <div className="col-span-3 "></div>
+
+          {/* Main Content */}
+          <div className="col-span-12 lg:col-span-9 xl:col-span-8">
+            <DateCarousel />
+
+            <div className="mt-6">
+              <ScheduleComponent Events={Events} />
+            </div>
+          </div>
+
+          {/* Right Sidebar (only visible on xl screens) */}
+          <div className="hidden lg:block lg:col-span-3 xl:col-span-2">
+            <RightSidebar data={BlogData} />
+          </div>
         </div>
       </div>
     </main>

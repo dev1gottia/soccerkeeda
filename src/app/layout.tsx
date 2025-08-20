@@ -7,7 +7,7 @@ import { Sofia_Sans } from "next/font/google"; // 👈 import font
 // Configure the font
 const sofiaSans = Sofia_Sans({
   subsets: ["latin"],
-  weight: ["400", "700"], // pick the weights you need
+  weight: ["300", "400", "700"], // pick the weights you need
 });
 
 // Metadata

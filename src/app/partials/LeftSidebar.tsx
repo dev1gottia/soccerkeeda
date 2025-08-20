@@ -1,3 +1,4 @@
+/* eslint-disable @next/next/no-img-element */
 import { Card, CardHeader, CardTitle } from "@/components/ui/card";
 import React from "react";
 
@@ -38,7 +39,7 @@ export default function LeftSidebar({ data }: { data: SidebarContent[] }) {
       <div className="space-y-1 mx-2">
         {data.map((item, index) => (
           <div
-            className="flex items-center gap-4 bg-card p-1 border rounded-md hover:bg-card/50 shadow-sm cursor-pointer"
+            className="flex items-center gap-4 bg-card p-1 border rounded-md shadow-sm cursor-pointer hover:border-green-500 transition-all duration-300 ease-in-out"
             key={index}
           >
             <div className="rounded-full p-1 bg-white">
