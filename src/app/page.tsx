@@ -5,6 +5,7 @@ import RightSidebar from "./partials/RightSidebar";
 import DateCarousel from "./partials/DateCarousal";
 import ScheduleComponent from "./partials/ScheduleComponent";
 import { getAllLeagueSchedules } from "@/lib/getLeagueSchedules";
+import MainContent from "./partials/MainContent";
 
 import {
   Carousel,
@@ -14,7 +15,7 @@ import {
   CarouselPrevious,
 } from "@/components/ui/carousel";
 
-type SportsDataType = {
+export type SportsDataType = {
   name: string;
   image: string;
   slug: string;
@@ -198,11 +199,9 @@ export default async function Page() {
 
           {/* Main Content */}
           <div className="col-span-12 lg:col-span-9 xl:col-span-8">
-            <DateCarousel />
+            {/* <DateCarousel /> */}
 
-            <div className="mt-6">
-              <ScheduleComponent Events={schedules} />
-            </div>
+            <MainContent schedules={schedules} />
           </div>
 
           {/* Right Sidebar (only visible on xl screens) */}

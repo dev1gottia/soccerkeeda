@@ -23,7 +23,7 @@ export default function LeftSidebar({ data }: { data: BlogDataType[] }) {
           <span>Latest News</span>
         </CardTitle>
       </CardHeader>
-      <div className="space-y-4 mx-2 bg-card p-3 rounded-md shadow-sm">
+      <div className="space-y-4 mx-2 bg-card rounded-md shadow-sm">
         {data.map((item, index) => (
           <div
             key={index}

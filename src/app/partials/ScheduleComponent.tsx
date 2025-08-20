@@ -34,7 +34,7 @@ type Props = {
 export default function ScheduleComponent({ Events }: Props) {
   return (
     <>
-      {Events.map((league, index) => (
+      {Events.map((league: any, index: any) => (
         <Card className="mt-6 py-4" key={index}>
           {/* League Header */}
           <CardHeader className="border-b !pb-2">
@@ -53,7 +53,7 @@ export default function ScheduleComponent({ Events }: Props) {
           {/* Events List */}
           <CardContent className="mt-3 space-y-3 ">
             <div className="grid grid-cols-12 gap-4 max-md:grid-cols-1 ">
-              {league.events.map((event, indexEvent) => (
+              {league.events.map((event: any, indexEvent: any) => (
                 <div className="col-span-6 grid " key={indexEvent}>
                   <Card className="pt-3 hover:border-green-500 transition-all duration-300 ease-in-out">
                     <CardHeader className="border-b !pb-2">

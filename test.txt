@@ -1,0 +1,2 @@
+ event.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
+          league.league.toLowerCase().includes(searchQuery.toLowerCase())

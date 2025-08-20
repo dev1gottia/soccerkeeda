@@ -101,7 +101,7 @@ type Event = {
   [key: string]: any;
 };
 
-type LeagueSchedule = {
+export type LeagueSchedule = {
   league: string;
   events: Event[];
   url: string;
