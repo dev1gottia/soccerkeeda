@@ -17,7 +17,7 @@ export default function Navbar() {
   ];
 
   return (
-    <Card className="bg-card border-b p-5 rounded-none">
+    <Card className="bg-card border-0 border-b p-5 rounded-none">
       <div className="container mx-auto flex items-center justify-between">
         {/* Left side: Logo + Tabs */}
         <div className="flex items-center gap-18">

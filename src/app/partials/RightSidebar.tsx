@@ -6,7 +6,7 @@ import { type BlogDataType } from "../page";
 
 export default function LeftSidebar({ data }: { data: BlogDataType[] }) {
   return (
-    <Card className="bg-transparent">
+    <Card >
       <CardHeader className="border-b !pb-3">
         <CardTitle className="flex items-center gap-3">
           {" "}

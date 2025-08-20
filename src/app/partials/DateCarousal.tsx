@@ -18,7 +18,7 @@ export default function DateCarousel() {
   );
 
   return (
-    <Card className="max-md:px-2 px-14 py-4 bg-transparent">
+    <Card className="max-sm:px-2 max-md:px-14 px-14 py-4">
       <Carousel
         className="w-full"
         opts={{
@@ -39,7 +39,7 @@ export default function DateCarousel() {
                 "
               >
                 <Card
-                  className={`transition-colors duration-300 rounded-xl shadow-sm ${
+                  className={`p-0 transition-colors duration-300 rounded-xl shadow-sm ${
                     isToday
                       ? "bg-green-500 text-white"
                       : "bg-card text-foreground hover:bg-muted"

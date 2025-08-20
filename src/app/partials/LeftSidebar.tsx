@@ -9,7 +9,7 @@ type SidebarContent = {
 
 export default function LeftSidebar({ data }: { data: SidebarContent[] }) {
   return (
-    <Card className="bg-transparent">
+    <Card>
       <CardHeader className="border-b !pb-3">
         <CardTitle className="flex items-center gap-3">
           {" "}

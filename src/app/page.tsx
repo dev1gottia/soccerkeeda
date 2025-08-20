@@ -1,9 +1,10 @@
 /* eslint-disable @next/next/no-img-element */
-import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card";
+// import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card";
 import LeftSidebar from "./partials/LeftSidebar";
 import RightSidebar from "./partials/RightSidebar";
 import DateCarousel from "./partials/DateCarousal";
 import ScheduleComponent from "./partials/ScheduleComponent";
+import { getAllLeagueSchedules } from "@/lib/getLeagueSchedules";
 
 import {
   Carousel,
@@ -16,6 +17,7 @@ import {
 type SportsDataType = {
   name: string;
   image: string;
+  slug: string;
 };
 
 export type BlogDataType = {
@@ -27,71 +29,85 @@ export type BlogDataType = {
 const SportsData: SportsDataType[] = [
   {
     name: "English Premier League",
+    slug: "eng.1", // ✅ confirmed
     image:
       "https://a.espncdn.com/combiner/i?img=/i/leaguelogos/soccer/500/23.png&transparent=true&w=24&h=24",
   },
   {
     name: "German Bundesliga",
+    slug: "ger.1", // inferred
     image:
       "https://a.espncdn.com/combiner/i?img=/i/leaguelogos/soccer/500/10.png&transparent=true&w=24&h=24",
   },
   {
     name: "English FA Cup",
+    slug: "eng.fa", // inferred
     image:
       "https://a.espncdn.com/combiner/i?img=/i/leaguelogos/soccer/500/40.png&transparent=true&w=24&h=24",
   },
   {
     name: "Spanish LALIGA",
+    slug: "esp.1", // inferred (sometimes shown as es.1/laliga)
     image:
       "https://a.espncdn.com/combiner/i?img=/i/leaguelogos/soccer/500/15.png&transparent=true&w=24&h=24",
   },
   {
     name: "Italian Serie A",
+    slug: "ita.1", // inferred
     image:
       "https://a.espncdn.com/combiner/i?img=/i/leaguelogos/soccer/500/12.png&transparent=true&w=24&h=24",
   },
   {
     name: "French Ligue 1",
+    slug: "fra.1", // inferred
     image:
       "https://a.espncdn.com/combiner/i?img=/i/leaguelogos/soccer/500/9.png&transparent=true&w=24&h=24",
   },
   {
     name: "UEFA Champions League",
+    slug: "uefa.champions", // ✅ confirmed
     image:
       "https://a.espncdn.com/combiner/i?img=/i/leaguelogos/soccer/500/2.png&transparent=true&w=24&h=24",
   },
   {
     name: "UEFA Europa League",
+    slug: "uefa.europa", // inferred
     image:
       "https://a.espncdn.com/combiner/i?img=/i/leaguelogos/soccer/500/2310.png&transparent=true&w=30&h=30",
   },
   {
     name: "English League One",
+    slug: "eng.leagueone", // inferred
     image:
       "https://a.espncdn.com/combiner/i?img=/i/leaguelogos/soccer/500/25.png&transparent=true&w=30&h=30",
   },
   {
     name: "Scottish Premier League",
+    slug: "sco.1", // inferred
     image:
       "https://a.espncdn.com/combiner/i?img=/i/leaguelogos/soccer/500/45.png&transparent=true&w=30&h=30",
   },
   {
     name: "Turkish Super Lig",
+    slug: "tur.1", // inferred
     image:
       "https://a.espncdn.com/combiner/i?img=/i/leaguelogos/soccer/500/18.png&transparent=true&w=30&h=30",
   },
   {
     name: "MLS",
+    slug: "usa.1", // ✅ confirmed
     image:
       "https://a.espncdn.com/combiner/i?img=/i/leaguelogos/soccer/500/19.png&transparent=true&w=30&h=30",
   },
   {
     name: "FIFA World Cup",
+    slug: "fifa.worldcup", // inferred
     image:
       "https://a.espncdn.com/combiner/i?img=/i/leaguelogos/soccer/500/4.png&transparent=true&w=30&h=30",
   },
   {
     name: "English League Championship",
+    slug: "eng.2", // inferred (sometimes eng.champ)
     image:
       "https://a.espncdn.com/combiner/i?img=/i/leaguelogos/soccer/500/24.png&transparent=true&w=30&h=30",
   },
@@ -164,7 +180,9 @@ const Events = [
   },
 ];
 
-export default function Page() {
+export default async function Page() {
+  const schedules = await getAllLeagueSchedules();
+
   return (
     <main>
       <div className="container mx-auto my-5 px-4">
@@ -183,7 +201,7 @@ export default function Page() {
             <DateCarousel />
 
             <div className="mt-6">
-              <ScheduleComponent Events={Events} />
+              <ScheduleComponent Events={schedules} />
             </div>
           </div>
 
