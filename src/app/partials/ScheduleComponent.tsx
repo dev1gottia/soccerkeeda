@@ -7,6 +7,7 @@ import {
   CardContent,
   CardDescription,
 } from "@/components/ui/card";
+import moment from "moment-timezone";
 
 type EventsDataType = {
   team1: string;
@@ -32,6 +33,8 @@ type Props = {
 };
 
 export default function ScheduleComponent({ Events }: Props) {
+  const userTz = moment.tz.guess(); // detect user timezone
+
   return (
     <>
       {Events.map((league: any, index: any) => (
@@ -57,7 +60,7 @@ export default function ScheduleComponent({ Events }: Props) {
                 <div className="col-span-6 grid " key={indexEvent}>
                   <Card className="pt-3 hover:border-green-500 transition-all duration-300 ease-in-out">
                     <CardHeader className="border-b !pb-2">
-                      <CardDescription className="flex items-center  gap-2">
+                      <CardDescription className="flex items-center gap-2">
                         <svg
                           xmlns="http://www.w3.org/2000/svg"
                           height="22px"
@@ -73,10 +76,13 @@ export default function ScheduleComponent({ Events }: Props) {
                     </CardHeader>
 
                     <CardContent className="grid grid-cols-12 gap-4">
-                      <div className="col-span-4 flex flex-col  items-center gap-3">
+                      <div className="col-span-4 flex flex-col items-center gap-3">
                         <div>
                           <img
-                            src={event.competitions[0].competitors[0].team.logo}
+                            src={
+                              event.competitions[0].competitors[0].team.logo ||
+                              null
+                            }
                             alt={
                               event.competitions[0].competitors[0].team
                                 .displayName
@@ -111,13 +117,18 @@ export default function ScheduleComponent({ Events }: Props) {
                               clipRule="evenodd"
                             ></path>
                           </svg>
-                          <span className="tracking-wide">05:00</span>
+                          <span className="tracking-wide">
+                            {moment(event.date).tz(userTz).format("HH:mm ")}
+                          </span>
                         </div>
                       </div>
-                      <div className="col-span-4 flex flex-col  items-center gap-3">
+                      <div className="col-span-4 flex flex-col items-center gap-3">
                         <div>
                           <img
-                            src={event.competitions[0].competitors[1].team.logo}
+                            src={
+                              event.competitions[0].competitors[1].team.logo ||
+                              null
+                            }
                             alt={
                               event.competitions[0].competitors[1].team
                                 .displayName

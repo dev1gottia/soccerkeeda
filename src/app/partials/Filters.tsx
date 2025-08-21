@@ -1,6 +1,6 @@
 "use client";
-
 import * as React from "react";
+import { Input } from "@/components/ui/input"
 
 type SearchFilterProps = {
   onSearchChange: (query: string) => void;
@@ -17,7 +17,7 @@ export default function SearchFilter({ onSearchChange }: SearchFilterProps) {
 
   return (
     <div className="mt-4">
-      <input
+      <Input
         type="text"
         value={query}
         onChange={handleChange}

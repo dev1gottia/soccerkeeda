@@ -90,6 +90,18 @@ const SportsData: SportsDataType[] = [
     image:
       "https://a.espncdn.com/combiner/i?img=/i/leaguelogos/soccer/500/24.png&transparent=true&w=30&h=30",
   },
+  {
+    name: "UEFA Europa League Qualifying",
+    slug: "uefa.europa_qual",
+    image:
+      "https://a.espncdn.com/combiner/i?img=/i/leaguelogos/soccer/500/24.png&transparent=true&w=30&h=30",
+  },
+  {
+    name: "UEFA Conference League Qualifying",
+    slug: "uefa.europa.conf_qual",
+    image:
+      "https://a.espncdn.com/combiner/i?img=/i/leaguelogos/soccer/500/24.png&transparent=true&w=30&h=30",
+  },
 ];
 
 type Event = {
@@ -111,19 +123,29 @@ export type LeagueSchedule = {
 const cache: Record<string, { timestamp: number; data: Event[] }> = {};
 const CACHE_DURATION = 5 * 60 * 1000; // 5 minutes
 
-async function fetchLeague(slug: string): Promise<Event[]> {
+async function fetchLeague(
+  slug: string,
+  startDate?: string, // format: YYYYMMDD
+  endDate?: string // format: YYYYMMDD
+): Promise<Event[]> {
   const now = Date.now();
+  const cacheKey = `${slug}-${startDate || ""}-${endDate || ""}`;
 
   // Return cached data if available and not expired
-  if (cache[slug] && now - cache[slug].timestamp < CACHE_DURATION) {
-    return cache[slug].data;
+  if (cache[cacheKey] && now - cache[cacheKey].timestamp < CACHE_DURATION) {
+    return cache[cacheKey].data;
   }
 
   try {
-    const res = await fetch(
-      `http://site.api.espn.com/apis/site/v2/sports/soccer/${slug}/scoreboard`
-    );
+    // Build URL with optional date range
+    let url = `http://site.api.espn.com/apis/site/v2/sports/soccer/${slug}/scoreboard`;
+    if (startDate && endDate) {
+      url += `?dates=${startDate}-${endDate}`;
+    } else if (startDate) {
+      url += `?dates=${startDate}`; // single day
+    }
 
+    const res = await fetch(url);
     if (!res.ok) {
       console.error(`Failed to fetch ${slug}: ${res.status}`);
       return [];
@@ -133,7 +155,7 @@ async function fetchLeague(slug: string): Promise<Event[]> {
     const events = data.events || [];
 
     // Save in cache
-    cache[slug] = { timestamp: now, data: events };
+    cache[cacheKey] = { timestamp: now, data: events };
     return events;
   } catch (err) {
     console.error(`Error fetching ${slug}:`, err);
@@ -141,16 +163,25 @@ async function fetchLeague(slug: string): Promise<Event[]> {
   }
 }
 
-// Exported function to get all leagues
-export async function getAllLeagueSchedules(): Promise<LeagueSchedule[]> {
+/**
+ * Exported function to get all leagues schedules.
+ */
+export async function getAllLeagueSchedules(
+  startDate?: string,
+  endDate?: string
+): Promise<LeagueSchedule[]> {
   const results = await Promise.all(
     SportsData.map(async (league) => {
-      const events = await fetchLeague(league.slug);
-      const url = `http://site.api.espn.com/apis/site/v2/sports/soccer/${league.slug}/scoreboard`;
+      const events = await fetchLeague(league.slug, startDate, endDate);
+      const url = `http://site.api.espn.com/apis/site/v2/sports/soccer/${
+        league.slug
+      }/scoreboard${
+        startDate ? `?dates=${startDate}${endDate ? `-${endDate}` : ""}` : ""
+      }`;
+
       return { league: league.name, events, url, image: league.image };
     })
   );
 
-  // Filter out leagues with no events
   return results.filter((league) => league.events.length > 0);
 }

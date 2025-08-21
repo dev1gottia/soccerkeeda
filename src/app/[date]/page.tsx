@@ -1,20 +1,10 @@
 /* eslint-disable @next/next/no-img-element */
 // import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card";
-import LeftSidebar from "./partials/LeftSidebar";
-import RightSidebar from "./partials/RightSidebar";
-import DateCarousel from "./partials/DateCarousal";
-import ScheduleComponent from "./partials/ScheduleComponent";
+import LeftSidebar from "../partials/LeftSidebar";
+import RightSidebar from "../partials/RightSidebar";
 import { getAllLeagueSchedules } from "@/lib/getLeagueSchedules";
-import MainContent from "./partials/MainContent";
+import MainContent from "../partials/MainContent";
 import { DateTime } from "luxon";
-
-import {
-  Carousel,
-  CarouselContent,
-  CarouselItem,
-  CarouselNext,
-  CarouselPrevious,
-} from "@/components/ui/carousel";
 
 export type SportsDataType = {
   name: string;
@@ -144,26 +134,16 @@ const BlogData: BlogDataType[] = [
 ];
 
 interface PageProps {
-  searchParams: { [key: string]: string | string[] | undefined };
+  params: Promise<{ date: string }>;
 }
 
-export default async function Page({ searchParams }: PageProps) {
-  let schedules;
+export default async function Page({ params }: PageProps) {
+  const { date } = await params;
 
-  const resolvedSearchParams = await searchParams;
-  const paramsDate = resolvedSearchParams.date as string;
-
-  if (paramsDate) {
-    const dt = DateTime.fromFormat(paramsDate, "yyyyLLdd");
-    const yesterday = dt.minus({ days: 1 }).toFormat("yyyyLLdd");
-    const tomorrow = dt.plus({ days: 1 }).toFormat("yyyyLLdd");
-    schedules = await getAllLeagueSchedules(yesterday, tomorrow);
-  } else {
-    const yesterday = DateTime.utc().minus({ days: 1 }).toFormat("yyyyLLdd");
-    const tomorrow = DateTime.utc().plus({ days: 1 }).toFormat("yyyyLLdd");
-
-    schedules = await getAllLeagueSchedules(yesterday, tomorrow);
-  }
+  const dt = DateTime.fromFormat(date, "yyyyLLdd");
+  const yesterday = dt.minus({ days: 1 }).toFormat("yyyyLLdd");
+  const tomorrow = dt.plus({ days: 1 }).toFormat("yyyyLLdd");
+  const schedules = await getAllLeagueSchedules(yesterday, tomorrow);
   
 
   return (
@@ -183,7 +163,7 @@ export default async function Page({ searchParams }: PageProps) {
           <div className="col-span-12 lg:col-span-9 xl:col-span-8">
             {/* <DateCarousel /> */}
 
-            <MainContent schedules={schedules} />
+            <MainContent schedules={schedules} date={date} />
           </div>
 
           {/* Right Sidebar (only visible on xl screens) */}

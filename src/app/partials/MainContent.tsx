@@ -5,35 +5,58 @@ import * as React from "react";
 import DateCarousel from "./DateCarousal";
 import SearchFilter from "./Filters";
 import ScheduleComponent from "./ScheduleComponent";
+import moment from "moment-timezone";
 
-export default function MainContent({ schedules }: { schedules: any }) {
+export default function MainContent({
+  schedules,
+  date,
+}: {
+  schedules: any;
+  date?: any;
+}) {
   const [searchQuery, setSearchQuery] = React.useState("");
 
-  // Filter schedules based on search query
+  const userTz = moment.tz.guess();
+
+  let selectedDate;
+
+  if (date) {
+    selectedDate = moment.tz(date, userTz);
+  } else {
+    selectedDate = moment.tz(userTz);
+  }
+  
+
   const filteredSchedules = React.useMemo(() => {
-    if (!searchQuery) return schedules; // no filter, show all
-
     const query = searchQuery.toLowerCase();
+    const selectedDateNew = selectedDate
 
-    // Only keep leagues with at least one matching event
     return schedules
       .map((league: any) => {
         const filteredEvents = league.events.filter((event: any) => {
-          return (
-            event.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
-            league.league.toLowerCase().includes(searchQuery.toLowerCase())
-          );
+          const eventDate = moment.tz(event.date, userTz);
+
+          // ✅ Date filter (compare in user timezone)
+          const matchesDate = selectedDateNew
+            ? eventDate.isSame(selectedDateNew, "day")
+            : true;
+
+          const matchesSearch = query
+            ? event.name.toLowerCase().includes(query) ||
+              league.league.toLowerCase().includes(query)
+            : true;
+
+          return matchesDate && matchesSearch;
         });
 
         return { ...league, events: filteredEvents };
       })
-      .filter((league: any) => league.events.length > 0); // remove empty leagues
-  }, [searchQuery, schedules]);
+      .filter((league: any) => league.events.length > 0);
+  }, [searchQuery, schedules, userTz]);
 
   return (
     <div>
-      <DateCarousel />
-
+      <DateCarousel date={date} />
       <SearchFilter onSearchChange={setSearchQuery} />
 
       <div className="mt-6">
