@@ -110,6 +110,8 @@ export default function DateCarousel({
                     <span className="text-xs sm:text-sm">
                       {dateItem.toFormat("EEE")}
                     </span>
+
+                    
                   </CardContent>
                 </Card>
               </CarouselItem>

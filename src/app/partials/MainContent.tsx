@@ -7,11 +7,12 @@ import SearchFilter from "./Filters";
 import ScheduleComponent from "./ScheduleComponent";
 import moment from "moment-timezone";
 import slugify from "@/lib/slugify";
+import ScheduleNotAvailable from "./ScheduleNotAvailable";
 
 export default function MainContent({
   schedules,
   date,
-  leagueParam
+  leagueParam,
 }: {
   schedules: any;
   date?: any;
@@ -32,12 +33,12 @@ export default function MainContent({
   let filteredSchedule;
 
   if (leagueParam) {
-    filteredSchedule = schedules.filter((leagueObj: any) => slugify(leagueObj.league) === leagueParam)
+    filteredSchedule = schedules.filter(
+      (leagueObj: any) => slugify(leagueObj.league) === leagueParam
+    );
   } else {
-    filteredSchedule = schedules
+    filteredSchedule = schedules;
   }
-
-
 
   const filteredSchedules = React.useMemo(() => {
     const query = searchQuery.toLowerCase();
@@ -55,8 +56,8 @@ export default function MainContent({
 
           const matchesSearch = query
             ? event.name.toLowerCase().includes(query) ||
-            league.league.toLowerCase().includes(query) ||
-            event.status.type.detail.toLowerCase().includes(query)
+              league.league.toLowerCase().includes(query) ||
+              event.status.type.detail.toLowerCase().includes(query)
             : true;
 
           return matchesDate && matchesSearch;
@@ -73,7 +74,14 @@ export default function MainContent({
       <SearchFilter onSearchChange={setSearchQuery} />
 
       <div className="mt-6">
-        <ScheduleComponent Events={filteredSchedules} selectedDate={selectedDate} />
+        {filteredSchedules.length > 0 && (
+          <ScheduleComponent
+            Events={filteredSchedules}
+            selectedDate={selectedDate}
+          />
+        )}
+
+        {filteredSchedules.length === 0 && <ScheduleNotAvailable />}
       </div>
     </div>
   );
