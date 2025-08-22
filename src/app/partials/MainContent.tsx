@@ -69,7 +69,7 @@ export default function MainContent({
 
   return (
     <div>
-      <DateCarousel date={date} />
+      <DateCarousel date={date} league={leagueParam} />
       <SearchFilter onSearchChange={setSearchQuery} />
 
       <div className="mt-6">

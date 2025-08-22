@@ -13,7 +13,7 @@ import { Card, CardContent } from "@/components/ui/card";
 import { DateTime } from "luxon";
 import { useRouter } from "next/navigation";
 
-export default function DateCarousel({ date }: { date?: string }) {
+export default function DateCarousel({ date, league }: { date?: string, league?: string }) {
   // Use useMemo to prevent today from changing on every render
   const today = React.useMemo(() => DateTime.now(), []);
   
@@ -29,6 +29,12 @@ export default function DateCarousel({ date }: { date?: string }) {
   const handleClick = (clickedDate: DateTime) => {
     // Convert date to YYYYMMDD format
     const dateStr = clickedDate.toFormat("yyyyLLdd");
+
+
+    if(league){
+     return router.push(`/league/${league}/${dateStr}`);
+    }
+
     // Push new URL with date param
     router.push(`/${dateStr}`);
   };

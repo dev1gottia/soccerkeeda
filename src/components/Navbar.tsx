@@ -26,27 +26,39 @@ export default function Navbar() {
 
           {/* Desktop Navigation */}
           <div className="hidden md:flex items-center gap-10">
-            {links.map((link) => {
-              const isActive = pathname === link.href;
+{links.map((link) => {
+  let isActive = false;
 
-              return (
-                <Link
-                  key={link.href}
-                  href={link.href}
-                  className={`relative text-lg font-[400] ${
-                    isActive
-                      ? "text-foreground"
-                      : "text-muted-foreground hover:text-foreground"
-                  }`}
-                >
-                  {link.label}
-                  <span
-                    className={`absolute left-0 -bottom-0.5 h-0.5 bg-green-500 transition-all duration-300
-                      ${isActive ? "w-full" : "w-0"}`}
-                  ></span>
-                </Link>
-              );
-            })}
+  const is404 = pathname === "/404" || pathname?.startsWith("/not-found"); // optional based on your routing
+
+  if (!is404) {
+    if (link.href === "/") {
+      // "Scores" tab is active for everything except /news and 404
+      isActive = pathname !== "/news";
+    } else {
+      isActive = pathname === link.href;
+    }
+  }
+
+  return (
+    <Link
+      key={link.href}
+      href={link.href}
+      className={`relative text-lg font-[400] ${
+        isActive
+          ? "text-foreground"
+          : "text-muted-foreground hover:text-foreground"
+      }`}
+    >
+      {link.label}
+      <span
+        className={`absolute left-0 -bottom-0.5 h-0.5 bg-green-500 transition-all duration-300
+          ${isActive ? "w-full" : "w-0"}`}
+      ></span>
+    </Link>
+  );
+})}
+
           </div>
         </div>
 
