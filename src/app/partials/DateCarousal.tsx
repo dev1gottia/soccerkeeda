@@ -13,30 +13,35 @@ import { Card, CardContent } from "@/components/ui/card";
 import { DateTime } from "luxon";
 import { useRouter } from "next/navigation";
 
-export default function DateCarousel({ date, league }: { date?: string, league?: string }) {
+export default function DateCarousel({
+  date,
+  league,
+}: {
+  date?: string;
+  league?: string;
+}) {
   // Use useMemo to prevent today from changing on every render
   const today = React.useMemo(() => DateTime.now(), []);
-  
+
   const dates = React.useMemo(
-    () => Array.from({ length: 46 }).map((_, i) =>
-      today.minus({ days: 15 }).plus({ days: i })
-    ),
+    () =>
+      Array.from({ length: 46 }).map((_, i) =>
+        today.minus({ days: 15 }).plus({ days: i })
+      ),
     [today]
   );
 
   const router = useRouter();
 
   const handleClick = (clickedDate: DateTime) => {
-    // Convert date to YYYYMMDD format
     const dateStr = clickedDate.toFormat("yyyyLLdd");
 
-
-    if(league){
-     return router.push(`/league/${league}/${dateStr}`);
+    if (league) {
+      return router.push(`/league/schedule/${league}/${dateStr}`);
     }
 
     // Push new URL with date param
-    router.push(`/${dateStr}`);
+    router.push(`/schedule/${dateStr}`);
   };
 
   // Parse the date from URL params or use today as default
@@ -52,7 +57,9 @@ export default function DateCarousel({ date, league }: { date?: string, league?:
     return today;
   }, [date, today]);
 
-  const [selectedDate, setSelectedDate] = React.useState<DateTime>(() => getInitialSelectedDate());
+  const [selectedDate, setSelectedDate] = React.useState<DateTime>(() =>
+    getInitialSelectedDate()
+  );
 
   // Update selected date when URL param changes
   React.useEffect(() => {

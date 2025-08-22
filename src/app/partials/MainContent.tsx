@@ -73,7 +73,7 @@ export default function MainContent({
       <SearchFilter onSearchChange={setSearchQuery} />
 
       <div className="mt-6">
-        <ScheduleComponent Events={filteredSchedules} />
+        <ScheduleComponent Events={filteredSchedules} selectedDate={selectedDate} />
       </div>
     </div>
   );

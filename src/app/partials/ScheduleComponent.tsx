@@ -7,7 +7,9 @@ import {
   CardContent,
   CardDescription,
 } from "@/components/ui/card";
+import slugify from "@/lib/slugify";
 import moment from "moment-timezone";
+import Link from "next/link";
 
 type EventsDataType = {
   team1: string;
@@ -30,151 +32,167 @@ type EventsType = {
 
 type Props = {
   Events: any;
+  selectedDate: any;
 };
 
-export default function ScheduleComponent({ Events }: Props) {
+export default function ScheduleComponent({ Events, selectedDate }: Props) {
   const userTz = moment.tz.guess(); // detect user timezone
 
   return (
     <>
       {Events.map((league: any, index: any) => (
-        <Card className="mt-6 py-4" key={index}>
-          {/* League Header */}
-          <CardHeader className="border-b !pb-2">
-            <CardTitle className="flex items-center gap-3">
-              <div className="rounded-full p-1 bg-white shadow-md">
-                <img
-                  src={league.image}
-                  alt={league.league}
-                  className="w-8 h-8 object-contain"
-                />
-              </div>
-              <span className="font-semibold text-lg">{league.league}</span>
-            </CardTitle>
-          </CardHeader>
+        <Link
+          href={`/league/${slugify(league.league)}/schedule/${moment(
+            selectedDate
+          ).format("YYYYMMDD")}/event/${slugify(league.events[0].name)}`}
+          key={index}
+        >
+          <Card className="mt-6 py-4">
+            {/* League Header */}
+            <CardHeader className="border-b !pb-2">
+              <CardTitle className="flex items-center gap-3">
+                <div className="rounded-full p-1 bg-white shadow-md">
+                  <img
+                    src={league.image}
+                    alt={league.league}
+                    className="w-8 h-8 object-contain"
+                  />
+                </div>
+                <span className="font-semibold text-lg">{league.league}</span>
+              </CardTitle>
+            </CardHeader>
 
-          {/* Events List */}
-          <CardContent className="mt-3 space-y-3 ">
-            <div className="grid grid-cols-12 gap-4 max-md:grid-cols-1 ">
-              {league.events.map((event: any, indexEvent: any) => (
-                <div className="col-span-6 grid " key={indexEvent}>
-                  <Card className="pt-3 hover:border-green-500 transition-all duration-300 ease-in-out">
-                    <CardHeader className="border-b !pb-2">
-                      <CardDescription className="flex items-center gap-2">
-                        <svg
-                          xmlns="http://www.w3.org/2000/svg"
-                          height="22px"
-                          viewBox="0 -960 960 960"
-                          width="24px"
-                          fill="currentColor"
-                          className="text-green-500 -mt-1"
-                        >
-                          <path d="M120-680v-160l160 80-160 80Zm600 0v-160l160 80-160 80Zm-280-40v-160l160 80-160 80Zm0 640q-76-2-141.5-12.5t-114-26.5Q136-135 108-156t-28-44v-360q0-25 31.5-46.5t85.5-38q54-16.5 127-26t156-9.5q83 0 156 9.5t127 26q54 16.5 85.5 38T880-560v360q0 23-28 44t-76.5 37q-48.5 16-114 26.5T520-80v-160h-80v160Zm40-440q97 0 167.5-11.5T760-558q0-5-76-23.5T480-600q-128 0-204 18.5T200-558q42 15 112.5 26.5T480-520ZM360-166v-154h240v154q80-8 131-23.5t69-27.5v-271q-55 22-138 35t-182 13q-99 0-182-13t-138-35v271q18 12 69 27.5T360-166Zm120-161Z" />
-                        </svg>
-                        {event.venue.displayName}
-                      </CardDescription>
-                    </CardHeader>
+            {/* Events List */}
+            <CardContent className="mt-3 space-y-3 ">
+              <div className="grid grid-cols-12 gap-4 max-md:grid-cols-1 ">
+                {league.events.map((event: any, indexEvent: any) => (
+                  <div className="col-span-6 grid " key={indexEvent}>
+                    <Card className="pt-3 hover:border-green-500 transition-all duration-300 ease-in-out">
+                      <CardHeader className="border-b !pb-2">
+                        <CardDescription className="flex items-center gap-2">
+                          <svg
+                            xmlns="http://www.w3.org/2000/svg"
+                            height="22px"
+                            viewBox="0 -960 960 960"
+                            width="24px"
+                            fill="currentColor"
+                            className="text-green-500 -mt-1"
+                          >
+                            <path d="M120-680v-160l160 80-160 80Zm600 0v-160l160 80-160 80Zm-280-40v-160l160 80-160 80Zm0 640q-76-2-141.5-12.5t-114-26.5Q136-135 108-156t-28-44v-360q0-25 31.5-46.5t85.5-38q54-16.5 127-26t156-9.5q83 0 156 9.5t127 26q54 16.5 85.5 38T880-560v360q0 23-28 44t-76.5 37q-48.5 16-114 26.5T520-80v-160h-80v160Zm40-440q97 0 167.5-11.5T760-558q0-5-76-23.5T480-600q-128 0-204 18.5T200-558q42 15 112.5 26.5T480-520ZM360-166v-154h240v154q80-8 131-23.5t69-27.5v-271q-55 22-138 35t-182 13q-99 0-182-13t-138-35v271q18 12 69 27.5T360-166Zm120-161Z" />
+                          </svg>
+                          {event.venue.displayName}
+                        </CardDescription>
+                      </CardHeader>
 
-                    <CardContent className="grid grid-cols-12 gap-4">
-                      <div className="col-span-4 flex flex-col items-center gap-3">
-                        <div>
-                          <img
-                            src={
-                              event.competitions[0].competitors[0].team.logo ||
-                              null
-                            }
-                            alt={
+                      <CardContent className="grid grid-cols-12 gap-4">
+                        <div className="col-span-4 flex flex-col items-center gap-3">
+                          <div>
+                            <img
+                              src={
+                                event.competitions[0].competitors[0].team
+                                  .logo || null
+                              }
+                              alt={
+                                event.competitions[0].competitors[0].team
+                                  .displayName
+                              }
+                              className="w-10 h-10 object-contain"
+                            />
+                          </div>
+                          <div>
+                            {
                               event.competitions[0].competitors[0].team
                                 .displayName
                             }
-                            className="w-10 h-10 object-contain"
-                          />
-                        </div>
-                        <div>
-                          {
-                            event.competitions[0].competitors[0].team
-                              .displayName
-                          }
-                        </div>
-                      </div>
-                      <div className="col-span-4 flex flex-col gap-2 justify-center items-center">
-                        <span className="text-muted-foreground font-semibold">
-                          VS
-                        </span>
-
-                        {event.status.type.state === "pre" && (
-                          <div className="flex items-center gap-1 px-2.5 py-1 rounded-md text-xs font-semibold border bg-green-500/10 text-green-500 border-green-500/40">
-                            <svg
-                              xmlns="http://www.w3.org/2000/svg"
-                              viewBox="0 0 16 16"
-                              fill="currentColor"
-                              aria-hidden="true"
-                              data-slot="icon"
-                              className="size-3.5"
-                            >
-                              <path
-                                fillRule="evenodd"
-                                d="M1 8a7 7 0 1 1 14 0A7 7 0 0 1 1 8Zm7.75-4.25a.75.75 0 0 0-1.5 0V8c0 .414.336.75.75.75h3.25a.75.75 0 0 0 0-1.5h-2.5v-3.5Z"
-                                clipRule="evenodd"
-                              ></path>
-                            </svg>
-                            <span className="tracking-wide">
-                              {moment(event.date).tz(userTz).format("HH:mm ")}
-                            </span>
                           </div>
-                        )}
+                        </div>
+                        <div className="col-span-4 flex flex-col gap-2 justify-center items-center">
+                          <span className="text-muted-foreground font-semibold">
+                            VS
+                          </span>
 
-                        {event.status.type.completed === true && (
-                          <div className="flex items-center gap-1 px-2.5 py-1 rounded-md text-xs font-semibold border bg-foreground/10 text-foreground border-foreground/40">
-                            <svg
-                              xmlns="http://www.w3.org/2000/svg"
-                              className="size-3.5"
-                              viewBox="0 -960 960 960"
-                              fill="currentColor"
-                            >
-                              <path d="M480-80q-83 0-156-31.5T197-197q-54-54-85.5-127T80-480q0-83 31.5-156T197-763q54-54 127-85.5T480-880q65 0 123 19t107 53l-58 59q-38-24-81-37.5T480-800q-133 0-226.5 93.5T160-480q0 133 93.5 226.5T480-160q133 0 226.5-93.5T800-480q0-18-2-36t-6-35l65-65q11 32 17 66t6 70q0 83-31.5 156T763-197q-54 54-127 85.5T480-80Zm-56-216L254-466l56-56 114 114 400-401 56 56-456 457Z" />
-                            </svg>
-                            <span className="tracking-wide">FT</span>
-                          </div>
-                        )}
-
-                        {event.status.type.state === "post" &&
-                          event.status.type.detail !== "FT" && (
-                            <div className="flex items-center gap-1 px-2.5 py-1 rounded-md text-xs font-semibold border bg-foreground/10 text-foreground border-foreground/40">
+                          {event.status.type.state === "pre" && (
+                            <div className="flex items-center gap-1 px-2.5 py-1 rounded-md text-xs font-semibold border bg-green-500/10 text-green-500 border-green-500/40">
+                              <svg
+                                xmlns="http://www.w3.org/2000/svg"
+                                viewBox="0 0 16 16"
+                                fill="currentColor"
+                                aria-hidden="true"
+                                data-slot="icon"
+                                className="size-3.5"
+                              >
+                                <path
+                                  fillRule="evenodd"
+                                  d="M1 8a7 7 0 1 1 14 0A7 7 0 0 1 1 8Zm7.75-4.25a.75.75 0 0 0-1.5 0V8c0 .414.336.75.75.75h3.25a.75.75 0 0 0 0-1.5h-2.5v-3.5Z"
+                                  clipRule="evenodd"
+                                ></path>
+                              </svg>
                               <span className="tracking-wide">
-                                {event.status.type.detail}
+                                {moment(event.date).tz(userTz).format("HH:mm ")}
                               </span>
                             </div>
                           )}
-                      </div>
-                      <div className="col-span-4 flex flex-col items-center gap-3">
-                        <div>
-                          <img
-                            src={
-                              event.competitions[0].competitors[1].team.logo ||
-                              null
-                            }
-                            alt={
+
+                          {event.status.type.completed === true && (
+                            <div className="flex items-center gap-1 px-2.5 py-1 rounded-md text-xs font-semibold border bg-foreground/10 text-foreground border-foreground/40">
+                              <svg
+                                xmlns="http://www.w3.org/2000/svg"
+                                className="size-3.5"
+                                viewBox="0 -960 960 960"
+                                fill="currentColor"
+                              >
+                                <path d="M480-80q-83 0-156-31.5T197-197q-54-54-85.5-127T80-480q0-83 31.5-156T197-763q54-54 127-85.5T480-880q65 0 123 19t107 53l-58 59q-38-24-81-37.5T480-800q-133 0-226.5 93.5T160-480q0 133 93.5 226.5T480-160q133 0 226.5-93.5T800-480q0-18-2-36t-6-35l65-65q11 32 17 66t6 70q0 83-31.5 156T763-197q-54 54-127 85.5T480-80Zm-56-216L254-466l56-56 114 114 400-401 56 56-456 457Z" />
+                              </svg>
+                              <span className="tracking-wide">FT</span>
+                            </div>
+                          )}
+
+                          {event.status.type.state === "post" &&
+                            event.status.type.detail !== "FT" && (
+                              <div className="flex items-center gap-1 px-2.5 py-1 rounded-md text-xs font-semibold border bg-foreground/10 text-foreground border-foreground/40">
+                                <span className="tracking-wide">
+                                  {event.status.type.detail}
+                                </span>
+                              </div>
+                            )}
+
+                          {event.status.type.state === "in" && (
+                            <div className="flex items-center gap-1 px-2.5 py-1 rounded-md text-xs font-semibold border bg-red-500/10 text-red-500 border-red-500/40">
+                              <span className="tracking-wide">
+                                {event.status.displayClock}
+                              </span>
+                            </div>
+                          )}
+                        </div>
+                        <div className="col-span-4 flex flex-col items-center gap-3">
+                          <div>
+                            <img
+                              src={
+                                event.competitions[0].competitors[1].team
+                                  .logo || null
+                              }
+                              alt={
+                                event.competitions[0].competitors[1].team
+                                  .displayName
+                              }
+                              className="w-10 h-10 object-contain"
+                            />
+                          </div>
+                          <div>
+                            {
                               event.competitions[0].competitors[1].team
                                 .displayName
                             }
-                            className="w-10 h-10 object-contain"
-                          />
+                          </div>
                         </div>
-                        <div>
-                          {
-                            event.competitions[0].competitors[1].team
-                              .displayName
-                          }
-                        </div>
-                      </div>
-                    </CardContent>
-                  </Card>
-                </div>
-              ))}
-            </div>
-          </CardContent>
-        </Card>
+                      </CardContent>
+                    </Card>
+                  </div>
+                ))}
+              </div>
+            </CardContent>
+          </Card>
+        </Link>
       ))}
     </>
   );

@@ -1,9 +1,9 @@
 /* eslint-disable @next/next/no-img-element */
 // import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card";
-import LeftSidebar from "../partials/LeftSidebar";
-import RightSidebar from "../partials/RightSidebar";
+import LeftSidebar from "../../partials/LeftSidebar";
+import RightSidebar from "../../partials/RightSidebar";
 import { getAllLeagueSchedules } from "@/lib/getLeagueSchedules";
-import MainContent from "../partials/MainContent";
+import MainContent from "../../partials/MainContent";
 import { DateTime } from "luxon";
 
 export type SportsDataType = {
