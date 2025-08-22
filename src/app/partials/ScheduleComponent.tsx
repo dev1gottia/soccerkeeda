@@ -102,25 +102,50 @@ export default function ScheduleComponent({ Events }: Props) {
                           VS
                         </span>
 
-                        <div className="flex items-center gap-1 px-2.5 py-1 rounded-md text-xs font-semibold border bg-green-500/10 text-green-500 border-green-500/40">
-                          <svg
-                            xmlns="http://www.w3.org/2000/svg"
-                            viewBox="0 0 16 16"
-                            fill="currentColor"
-                            aria-hidden="true"
-                            data-slot="icon"
-                            className="size-3.5"
-                          >
-                            <path
-                              fillRule="evenodd"
-                              d="M1 8a7 7 0 1 1 14 0A7 7 0 0 1 1 8Zm7.75-4.25a.75.75 0 0 0-1.5 0V8c0 .414.336.75.75.75h3.25a.75.75 0 0 0 0-1.5h-2.5v-3.5Z"
-                              clipRule="evenodd"
-                            ></path>
-                          </svg>
-                          <span className="tracking-wide">
-                            {moment(event.date).tz(userTz).format("HH:mm ")}
-                          </span>
-                        </div>
+                        {event.status.type.state === "pre" && (
+                          <div className="flex items-center gap-1 px-2.5 py-1 rounded-md text-xs font-semibold border bg-green-500/10 text-green-500 border-green-500/40">
+                            <svg
+                              xmlns="http://www.w3.org/2000/svg"
+                              viewBox="0 0 16 16"
+                              fill="currentColor"
+                              aria-hidden="true"
+                              data-slot="icon"
+                              className="size-3.5"
+                            >
+                              <path
+                                fillRule="evenodd"
+                                d="M1 8a7 7 0 1 1 14 0A7 7 0 0 1 1 8Zm7.75-4.25a.75.75 0 0 0-1.5 0V8c0 .414.336.75.75.75h3.25a.75.75 0 0 0 0-1.5h-2.5v-3.5Z"
+                                clipRule="evenodd"
+                              ></path>
+                            </svg>
+                            <span className="tracking-wide">
+                              {moment(event.date).tz(userTz).format("HH:mm ")}
+                            </span>
+                          </div>
+                        )}
+
+                        {event.status.type.completed === true && (
+                          <div className="flex items-center gap-1 px-2.5 py-1 rounded-md text-xs font-semibold border bg-foreground/10 text-foreground border-foreground/40">
+                            <svg
+                              xmlns="http://www.w3.org/2000/svg"
+                              className="size-3.5"
+                              viewBox="0 -960 960 960"
+                              fill="currentColor"
+                            >
+                              <path d="M480-80q-83 0-156-31.5T197-197q-54-54-85.5-127T80-480q0-83 31.5-156T197-763q54-54 127-85.5T480-880q65 0 123 19t107 53l-58 59q-38-24-81-37.5T480-800q-133 0-226.5 93.5T160-480q0 133 93.5 226.5T480-160q133 0 226.5-93.5T800-480q0-18-2-36t-6-35l65-65q11 32 17 66t6 70q0 83-31.5 156T763-197q-54 54-127 85.5T480-80Zm-56-216L254-466l56-56 114 114 400-401 56 56-456 457Z" />
+                            </svg>
+                            <span className="tracking-wide">FT</span>
+                          </div>
+                        )}
+
+                        {event.status.type.state === "post" &&
+                          event.status.type.detail !== "FT" && (
+                            <div className="flex items-center gap-1 px-2.5 py-1 rounded-md text-xs font-semibold border bg-foreground/10 text-foreground border-foreground/40">
+                              <span className="tracking-wide">
+                                {event.status.type.detail}
+                              </span>
+                            </div>
+                          )}
                       </div>
                       <div className="col-span-4 flex flex-col items-center gap-3">
                         <div>

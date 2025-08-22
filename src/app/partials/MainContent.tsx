@@ -25,11 +25,10 @@ export default function MainContent({
   } else {
     selectedDate = moment.tz(userTz);
   }
-  
 
   const filteredSchedules = React.useMemo(() => {
     const query = searchQuery.toLowerCase();
-    const selectedDateNew = selectedDate
+    const selectedDateNew = selectedDate;
 
     return schedules
       .map((league: any) => {
@@ -43,7 +42,8 @@ export default function MainContent({
 
           const matchesSearch = query
             ? event.name.toLowerCase().includes(query) ||
-              league.league.toLowerCase().includes(query)
+              league.league.toLowerCase().includes(query) ||
+              event.status.type.detail.toLowerCase().includes(query)
             : true;
 
           return matchesDate && matchesSearch;

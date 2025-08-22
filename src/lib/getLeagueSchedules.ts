@@ -94,13 +94,13 @@ const SportsData: SportsDataType[] = [
     name: "UEFA Europa League Qualifying",
     slug: "uefa.europa_qual",
     image:
-      "https://a.espncdn.com/combiner/i?img=/i/leaguelogos/soccer/500/24.png&transparent=true&w=30&h=30",
+      "https://a.espncdn.com/combiner/i?img=/i/teamlogos/soccer/500/default-team-logo-500.png&w=30&h=30",
   },
   {
     name: "UEFA Conference League Qualifying",
     slug: "uefa.europa.conf_qual",
     image:
-      "https://a.espncdn.com/combiner/i?img=/i/leaguelogos/soccer/500/24.png&transparent=true&w=30&h=30",
+      "https://a.espncdn.com/combiner/i?img=/i/teamlogos/soccer/500/default-team-logo-500.png&w=30&h=30",
   },
 ];
 

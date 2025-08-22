@@ -1,6 +1,8 @@
 /* eslint-disable @next/next/no-img-element */
 import { Card, CardHeader, CardTitle } from "@/components/ui/card";
+import Link from "next/link";
 import React from "react";
+import slugify from "@/lib/slugify";
 
 type SidebarContent = {
   name: string;
@@ -38,7 +40,8 @@ export default function LeftSidebar({ data }: { data: SidebarContent[] }) {
       </CardHeader>
       <div className="space-y-1 mx-2">
         {data.map((item, index) => (
-          <div
+          <Link
+            href={"/league/" + slugify(item.name)}
             className="flex items-center gap-4 bg-card p-1 border rounded-md shadow-sm cursor-pointer hover:border-green-500 transition-all duration-300 ease-in-out"
             key={index}
           >
@@ -46,7 +49,7 @@ export default function LeftSidebar({ data }: { data: SidebarContent[] }) {
               <img src={item.image} alt={item.name} className="w-6 h-6" />
             </div>
             <div className="text-xs">{item.name}</div>
-          </div>
+          </Link>
         ))}
       </div>
     </Card>
