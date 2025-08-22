@@ -160,7 +160,7 @@ interface PageProps {
 }
 
 export default async function Page({ params }: PageProps) {
-  const { league } = await params;  
+  const { league } = await params;
 
   const yesterday = DateTime.utc().minus({ days: 1 }).toFormat("yyyyLLdd");
   const tomorrow = DateTime.utc().plus({ days: 1 }).toFormat("yyyyLLdd");

@@ -37,7 +37,7 @@ export default function DateCarousel({
     const dateStr = clickedDate.toFormat("yyyyLLdd");
 
     if (league) {
-      return router.push(`/league/schedule/${league}/${dateStr}`);
+      return router.push(`/league/${league}/schedule/${dateStr}`);
     }
 
     // Push new URL with date param
