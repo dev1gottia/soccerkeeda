@@ -1,11 +1,20 @@
 /* eslint-disable @next/next/no-img-element */
 // import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card";
-import LeftSidebar from "../partials/LeftSidebar";
-import RightSidebar from "../partials/RightSidebar";
+import LeftSidebar from "../../partials/LeftSidebar";
+import RightSidebar from "../../partials/RightSidebar";
+import DateCarousel from "../../partials/DateCarousal";
+import ScheduleComponent from "../../partials/ScheduleComponent";
 import { getAllLeagueSchedules } from "@/lib/getLeagueSchedules";
-import MainContent from "../partials/MainContent";
+import MainContent from "../../partials/MainContent";
 import { DateTime } from "luxon";
 
+import {
+  Carousel,
+  CarouselContent,
+  CarouselItem,
+  CarouselNext,
+  CarouselPrevious,
+} from "@/components/ui/carousel";
 
 export type SportsDataType = {
   name: string;
@@ -147,20 +156,16 @@ const BlogData: BlogDataType[] = [
 ];
 
 interface PageProps {
-  searchParams: Promise<{ [key: string]: string | string[] | undefined }>;
+  params: Promise<{ league: string }>;
 }
 
-export default async function Page({ searchParams }: PageProps) {
-  let schedules;
+export default async function Page({ params }: PageProps) {
+  const { league } = await params;  
 
-  const resolvedSearchParams = await searchParams;
-  const paramsDate = resolvedSearchParams.date as string;
-    const yesterday = DateTime.utc().minus({ days: 1 }).toFormat("yyyyLLdd");
-    const tomorrow = DateTime.utc().plus({ days: 1 }).toFormat("yyyyLLdd");
+  const yesterday = DateTime.utc().minus({ days: 1 }).toFormat("yyyyLLdd");
+  const tomorrow = DateTime.utc().plus({ days: 1 }).toFormat("yyyyLLdd");
 
-    schedules = await getAllLeagueSchedules(yesterday, tomorrow);
-  }
-  
+  const schedules = await getAllLeagueSchedules(yesterday, tomorrow);
 
   return (
     <main>
@@ -179,7 +184,7 @@ export default async function Page({ searchParams }: PageProps) {
           <div className="col-span-12 lg:col-span-9 xl:col-span-8">
             {/* <DateCarousel /> */}
 
-            <MainContent schedules={schedules} />
+            <MainContent schedules={schedules} leagueParam={league} />
           </div>
 
           {/* Right Sidebar (only visible on xl screens) */}

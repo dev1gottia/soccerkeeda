@@ -6,15 +6,16 @@ import DateCarousel from "./DateCarousal";
 import SearchFilter from "./Filters";
 import ScheduleComponent from "./ScheduleComponent";
 import moment from "moment-timezone";
+import slugify from "@/lib/slugify";
 
 export default function MainContent({
   schedules,
   date,
-  league
+  leagueParam
 }: {
   schedules: any;
   date?: any;
-  league?: any;
+  leagueParam?: any;
 }) {
   const [searchQuery, setSearchQuery] = React.useState("");
 
@@ -28,11 +29,21 @@ export default function MainContent({
     selectedDate = moment.tz(userTz);
   }
 
+  let filteredSchedule;
+
+  if (leagueParam) {
+    filteredSchedule = schedules.filter((leagueObj: any) => slugify(leagueObj.league) === leagueParam)
+  } else {
+    filteredSchedule = schedules
+  }
+
+
+
   const filteredSchedules = React.useMemo(() => {
     const query = searchQuery.toLowerCase();
     const selectedDateNew = selectedDate;
 
-    return schedules
+    return filteredSchedule
       .map((league: any) => {
         const filteredEvents = league.events.filter((event: any) => {
           const eventDate = moment.tz(event.date, userTz);
@@ -44,8 +55,8 @@ export default function MainContent({
 
           const matchesSearch = query
             ? event.name.toLowerCase().includes(query) ||
-              league.league.toLowerCase().includes(query) ||
-              event.status.type.detail.toLowerCase().includes(query)
+            league.league.toLowerCase().includes(query) ||
+            event.status.type.detail.toLowerCase().includes(query)
             : true;
 
           return matchesDate && matchesSearch;
