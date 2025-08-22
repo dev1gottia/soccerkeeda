@@ -155,13 +155,6 @@ export default async function Page({ searchParams }: PageProps) {
 
   const resolvedSearchParams = await searchParams;
   const paramsDate = resolvedSearchParams.date as string;
-
-  if (paramsDate) {
-    const dt = DateTime.fromFormat(paramsDate, "yyyyLLdd");
-    const yesterday = dt.minus({ days: 1 }).toFormat("yyyyLLdd");
-    const tomorrow = dt.plus({ days: 1 }).toFormat("yyyyLLdd");
-    schedules = await getAllLeagueSchedules(yesterday, tomorrow);
-  } else {
     const yesterday = DateTime.utc().minus({ days: 1 }).toFormat("yyyyLLdd");
     const tomorrow = DateTime.utc().plus({ days: 1 }).toFormat("yyyyLLdd");
 

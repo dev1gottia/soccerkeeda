@@ -10,9 +10,11 @@ import moment from "moment-timezone";
 export default function MainContent({
   schedules,
   date,
+  league
 }: {
   schedules: any;
   date?: any;
+  league?: any;
 }) {
   const [searchQuery, setSearchQuery] = React.useState("");
 
