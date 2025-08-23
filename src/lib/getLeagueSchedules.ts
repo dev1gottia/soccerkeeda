@@ -175,7 +175,7 @@ export async function getAllLeagueSchedules(
         startDate ? `?dates=${startDate}${endDate ? `-${endDate}` : ""}` : ""
       }`;
 
-      return { league: league.name, events, url, image: league.image };
+      return { league: league.name, slug:league.slug, events, url, image: league.image };
     })
   );
 
