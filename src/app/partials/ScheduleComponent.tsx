@@ -38,6 +38,8 @@ type Props = {
 export default function ScheduleComponent({ Events, selectedDate }: Props) {
   const userTz = moment.tz.guess(); // detect user timezone
 
+  const defaultLeagueTeamLogo = "https://a.espncdn.com/combiner/i?img=/i/teamlogos/soccer/500/default-team-logo-500.png&w=500&h=500"
+
   return (
     <>
       {Events.map((league: any, index: any) => (
@@ -47,7 +49,7 @@ export default function ScheduleComponent({ Events, selectedDate }: Props) {
             <CardTitle className="flex items-center gap-3">
               <div className="rounded-full p-1 bg-white shadow-md">
                 <img
-                  src={league.image}
+                  src={league.image || defaultLeagueTeamLogo}
                   alt={league.league}
                   className="w-8 h-8 object-contain"
                 />
@@ -69,7 +71,7 @@ export default function ScheduleComponent({ Events, selectedDate }: Props) {
                   className="col-span-6 grid "
                   key={indexEvent}
                 >
-                  <Card className="pt-3 hover:border-green-500 transition-all duration-300 ease-in-out">
+                  <Card className="pt-3 hover:border-green-500 transition-all duration-300 ease-in-out hover:-translate-y-1">
                     <CardHeader className="border-b !pb-2">
                       <CardDescription className="flex items-center gap-2">
                         <svg
@@ -92,7 +94,7 @@ export default function ScheduleComponent({ Events, selectedDate }: Props) {
                           <img
                             src={
                               event.competitions[0].competitors[1].team.logo ||
-                              null
+                              defaultLeagueTeamLogo
                             }
                             alt={
                               event.competitions[0].competitors[1].team
@@ -171,7 +173,7 @@ export default function ScheduleComponent({ Events, selectedDate }: Props) {
                           <img
                             src={
                               event.competitions[0].competitors[0].team.logo ||
-                              "https://a.espncdn.com/combiner/i?img=/i/teamlogos/soccer/500/default-team-logo-500.png&w=500&h=500"
+                              defaultLeagueTeamLogo
                             }
                             alt={
                               event.competitions[0].competitors[0].team
