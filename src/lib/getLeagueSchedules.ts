@@ -113,6 +113,7 @@ export type LeagueSchedule = {
   league: string;
   events: Event[];
   url: string;
+  slug : string
 };
 
 // Simple in-memory cache
