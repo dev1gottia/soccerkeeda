@@ -5,7 +5,16 @@ import { fetchEventSummary } from "@/lib/summaryFetch";
 import { DateTime } from "luxon";
 import slugify from "@/lib/slugify";
 import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card";
-import TimeFormatter from "../../../../../../../components/TimeFormatter";
+import TimeFormatter from "@/components/TimeFormatter";
+import {
+  Table,
+  TableBody,
+  TableCaption,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from "@/components/ui/table"
 
 interface PageProps {
   params: Promise<{ league: string; date: string; eventSlug: string }>;
@@ -75,12 +84,44 @@ export default async function Page({ params }: PageProps) {
             </Card>
           </div>
           {/* Main Content */}
-          <div className="col-span-12 lg:col-span-9 xl:col-span-8">
+          <div className="col-span-12 lg:col-span-9 xl:col-span-6">
             {/* <DateCarousel /> */}
           </div>
           {/* Right Sidebar (only visible on xl screens) */}
-          <div className="hidden lg:block lg:col-span-3 xl:col-span-2">
-            {/* <RightSidebar data={BlogData} /> */}
+          <div className="hidden lg:block lg:col-span-3 xl:col-span-3">
+            
+
+
+            <Card>
+              <CardHeader>
+                <CardTitle>
+                {summaryData.standings.groups[0].header}
+                </CardTitle>
+              </CardHeader>
+
+              <CardContent>
+               <Table>
+  <TableCaption>A list of your recent invoices.</TableCaption>
+  <TableHeader>
+    <TableRow>
+      <TableHead className="w-[100px]">Invoice</TableHead>
+      <TableHead>Status</TableHead>
+      <TableHead>Method</TableHead>
+      <TableHead className="text-right">Amount</TableHead>
+    </TableRow>
+  </TableHeader>
+  <TableBody>
+    <TableRow>
+      <TableCell>INV001</TableCell>
+      <TableCell>Paid</TableCell>
+      <TableCell>Credit Card</TableCell>
+      <TableCell className="text-right">$250.00</TableCell>
+    </TableRow>
+  </TableBody>
+</Table>
+              </CardContent>
+            </Card>
+
           </div>
         </div>
       </div>
