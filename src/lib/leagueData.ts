@@ -9,43 +9,43 @@ const SportsData: SportsDataType[] = [
     name: "English Premier League",
     slug: "eng.1", // ✅ confirmed
     image:
-      "https://a.espncdn.com/combiner/i?img=/i/leaguelogos/soccer/500/23.png&transparent=true&w=24&h=24",
+      "https://a.espncdn.com/combiner/i?img=/i/leaguelogos/soccer/500/23.png&transparent=true&w=500&h=500",
   },
   {
     name: "German Bundesliga",
     slug: "ger.1", // inferred
     image:
-      "https://a.espncdn.com/combiner/i?img=/i/leaguelogos/soccer/500/10.png&transparent=true&w=24&h=24",
+      "https://a.espncdn.com/combiner/i?img=/i/leaguelogos/soccer/500/10.png&transparent=true&w=500&h=500",
   },
   {
     name: "English FA Cup",
     slug: "eng.fa", // inferred
     image:
-      "https://a.espncdn.com/combiner/i?img=/i/leaguelogos/soccer/500/40.png&transparent=true&w=24&h=24",
+      "https://a.espncdn.com/combiner/i?img=/i/leaguelogos/soccer/500/40.png&transparent=true&w=500&h=500",
   },
   {
     name: "Spanish LALIGA",
     slug: "esp.1", // inferred (sometimes shown as es.1/laliga)
     image:
-      "https://a.espncdn.com/combiner/i?img=/i/leaguelogos/soccer/500/15.png&transparent=true&w=24&h=24",
+      "https://a.espncdn.com/combiner/i?img=/i/leaguelogos/soccer/500/15.png&transparent=true&w=500&h=500",
   },
   {
     name: "Italian Serie A",
     slug: "ita.1", // inferred
     image:
-      "https://a.espncdn.com/combiner/i?img=/i/leaguelogos/soccer/500/12.png&transparent=true&w=24&h=24",
+      "https://a.espncdn.com/combiner/i?img=/i/leaguelogos/soccer/500/12.png&transparent=true&w=500&h=500",
   },
   {
     name: "French Ligue 1",
     slug: "fra.1", // inferred
     image:
-      "https://a.espncdn.com/combiner/i?img=/i/leaguelogos/soccer/500/9.png&transparent=true&w=24&h=24",
+      "https://a.espncdn.com/combiner/i?img=/i/leaguelogos/soccer/500/9.png&transparent=true&w=500&h=500",
   },
   {
     name: "UEFA Champions League",
     slug: "uefa.champions", // ✅ confirmed
     image:
-      "https://a.espncdn.com/combiner/i?img=/i/leaguelogos/soccer/500/2.png&transparent=true&w=24&h=24",
+      "https://a.espncdn.com/combiner/i?img=/i/leaguelogos/soccer/500/2.png&transparent=true&w=500&h=500",
   },
   {
     name: "UEFA Europa League",

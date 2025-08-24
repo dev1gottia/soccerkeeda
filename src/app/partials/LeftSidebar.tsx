@@ -46,7 +46,7 @@ export default function LeftSidebar({ data }: { data: SidebarContent[] }) {
             key={index}
           >
             <div className="rounded-full p-1 bg-white">
-              <img src={item.image} alt={item.name} className="min-w-6 min-h-6" />
+              <img src={item.image} alt={item.name} className="min-w-6 max-w-6 min-h-6 max-h-6" />
             </div>
             <div className="text-xs">{item.name}</div>
           </Link>

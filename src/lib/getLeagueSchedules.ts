@@ -110,6 +110,7 @@ type Event = {
 };
 
 export type LeagueSchedule = {
+  image: string | Blob | undefined;
   league: string;
   events: Event[];
   url: string;

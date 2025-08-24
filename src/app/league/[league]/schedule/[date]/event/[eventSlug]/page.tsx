@@ -4,17 +4,16 @@ import { getAllLeagueSchedules } from "@/lib/getLeagueSchedules";
 import { fetchEventSummary } from "@/lib/summaryFetch";
 import { DateTime } from "luxon";
 import slugify from "@/lib/slugify";
-import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card";
-import TimeFormatter from "@/components/TimeFormatter";
 import {
-  Table,
-  TableBody,
-  TableCaption,
-  TableCell,
-  TableHead,
-  TableHeader,
-  TableRow,
-} from "@/components/ui/table"
+  Card,
+  CardHeader,
+  CardTitle,
+  CardContent,
+  CardDescription,
+} from "@/components/ui/card";
+
+import LeftSidebar from "./sidebars/LeftSidebar";
+import RightSidebar from "./sidebars/RightSidebar";
 
 interface PageProps {
   params: Promise<{ league: string; date: string; eventSlug: string }>;
@@ -58,70 +57,88 @@ export default async function Page({ params }: PageProps) {
         <div className="grid grid-cols-12 mt-10 gap-6">
           {/* Left Sidebar */}
           <div className="hidden xl:block xl:col-span-3">
-            <Card>
-              <CardHeader>
-                <CardTitle className="border-b pb-5">
-                  Game Information
-                </CardTitle>
-              </CardHeader>
-
-              <CardContent>
-                <div className="text-muted-foreground">
-                  {summaryData.gameInfo.venue.fullName}
-                </div>
-
-                <div className="text-muted-foreground border-b pb-5">
-                  <TimeFormatter
-                    date={summaryData.header.competitions[0].date}
-                  />
-                </div>
-
-                <div className="text-muted-foreground pt-5">
-                  {summaryData.gameInfo.venue.address.city},{" "}
-                  {summaryData.gameInfo.venue.address.country}
-                </div>
-              </CardContent>
-            </Card>
+            <LeftSidebar
+              data={summaryData.gameInfo}
+              date={summaryData.header.competitions[0].date}
+            />
           </div>
           {/* Main Content */}
-          <div className="col-span-12 lg:col-span-9 xl:col-span-6">
-            {/* <DateCarousel /> */}
+          <div className="col-span-12 lg:col-span-9 xl:col-span-6 grid grid-cols-12">
+            <div className=" col-span-12">
+              <Card>
+                <CardHeader className="border-b !pb-2">
+                  <CardDescription className="flex items-center gap-2">
+                    <img
+                      src={leagueObj.image}
+                      alt={leagueObj.league}
+                      className="w-10 h-10"
+                    />
+
+                    <CardTitle>{leagueObj.league}</CardTitle>
+                  </CardDescription>
+                </CardHeader>
+
+                <CardContent className="grid grid-cols-12 gap-4">
+                  <div className="col-span-4 flex flex-col items-center gap-3">
+                    <div>
+                      <img
+                        src={
+                          summaryData.header.competitions[0].competitors[1].team
+                            .logos[0].href || null
+                        }
+                        alt={
+                          summaryData.header.competitions[0].competitors[1].team
+                            .displayName
+                        }
+                        className="w-16 h-16 object-contain"
+                      />
+                    </div>
+                    <div>
+                      {
+                        summaryData.header.competitions[0].competitors[1].team
+                          .displayName
+                      }
+                    </div>
+                  </div>
+                  <div className="col-span-4 flex flex-col gap-2 justify-center items-center">
+                    <span className="font-bold text-4xl">
+                      {summaryData.header.competitions[0].competitors[1].score}{" "}
+                      -{" "}
+                      {summaryData.header.competitions[0].competitors[0].score}
+                    </span>
+                  </div>
+                  <div className="col-span-4 flex flex-col items-center gap-3">
+                    <div>
+                      <img
+                        src={
+                          summaryData.header.competitions[0].competitors[0].team
+                            .logos[0].href || null
+                        }
+                        alt={
+                          summaryData.header.competitions[0].competitors[0].team
+                            .displayName
+                        }
+                        className="w-16 h-16 object-contain"
+                      />
+                    </div>
+                    <div>
+                      {
+                        summaryData.header.competitions[0].competitors[0].team
+                          .displayName
+                      }
+                    </div>
+                  </div>
+                </CardContent>
+              </Card>
+            </div>
           </div>
           {/* Right Sidebar (only visible on xl screens) */}
           <div className="hidden lg:block lg:col-span-3 xl:col-span-3">
-            
-
-
-            <Card>
-              <CardHeader>
-                <CardTitle>
-                {summaryData.standings.groups[0].header}
-                </CardTitle>
-              </CardHeader>
-
-              <CardContent>
-               <Table>
-  <TableCaption>A list of your recent invoices.</TableCaption>
-  <TableHeader>
-    <TableRow>
-      <TableHead className="w-[100px]">Invoice</TableHead>
-      <TableHead>Status</TableHead>
-      <TableHead>Method</TableHead>
-      <TableHead className="text-right">Amount</TableHead>
-    </TableRow>
-  </TableHeader>
-  <TableBody>
-    <TableRow>
-      <TableCell>INV001</TableCell>
-      <TableCell>Paid</TableCell>
-      <TableCell>Credit Card</TableCell>
-      <TableCell className="text-right">$250.00</TableCell>
-    </TableRow>
-  </TableBody>
-</Table>
-              </CardContent>
-            </Card>
-
+            <RightSidebar
+              data={summaryData.standings.groups[0]}
+              team1={summaryData.header.competitions[0].competitors[0].id}
+              team2={summaryData.header.competitions[0].competitors[1].id}
+            />
           </div>
         </div>
       </div>
