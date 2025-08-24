@@ -99,12 +99,19 @@ export default async function Page({ params }: PageProps) {
                           .displayName
                       }
                     </div>
+                    <div className="text-muted-foreground">
+                      test
+                    </div>
                   </div>
                   <div className="col-span-4 flex flex-col gap-2 justify-center items-center">
                     <span className="font-bold text-4xl">
                       {summaryData.header.competitions[0].competitors[1].score}{" "}
                       -{" "}
                       {summaryData.header.competitions[0].competitors[0].score}
+                    </span>
+
+                    <span className="text-muted-foreground">
+                     {summaryData.header.competitions[0].status.type.description}
                     </span>
                   </div>
                   <div className="col-span-4 flex flex-col items-center gap-3">
