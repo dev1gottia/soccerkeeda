@@ -267,31 +267,29 @@ export default function MainContent({
                   </Link>
                 </CardContent>
               </Card>
+
+              <Card className="mt-4">
+                <CardHeader>
+                  <CardTitle>Match Stats</CardTitle>
+                </CardHeader>
+                <CardContent>
+                  {stats.map((stat: any) => (
+                    <MatchStatBar
+                      key={stat.label}
+                      label={stat.label}
+                      team1Label={team1.name}
+                      team2Label={team2.name}
+                      team1Value={stat.team1Value}
+                      team2Value={stat.team2Value}
+                      team1Color={team1.color}
+                      team2Color={team2.color}
+                    />
+                  ))}
+                </CardContent>
+              </Card>
             </TabsContent>
           </Tabs>
         </div>
-      </div>
-
-      <div className="col-span-12 mt-4">
-        <Card>
-          <CardHeader>
-            <CardTitle>Match Stats</CardTitle>
-          </CardHeader>
-          <CardContent>
-            {stats.map((stat: any) => (
-              <MatchStatBar
-                key={stat.label}
-                label={stat.label}
-                team1Label={team1.name}
-                team2Label={team2.name}
-                team1Value={stat.team1Value}
-                team2Value={stat.team2Value}
-                team1Color={team1.color}
-                team2Color={team2.color}
-              />
-            ))}
-          </CardContent>
-        </Card>
       </div>
     </div>
   );
