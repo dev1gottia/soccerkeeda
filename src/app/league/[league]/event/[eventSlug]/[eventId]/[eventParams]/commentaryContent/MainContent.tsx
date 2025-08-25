@@ -46,7 +46,7 @@ export default function MainContent({
 
   const activeClass = "bg-green-500 text-white hover:bg-green-500";
   const notActiveTagClass =
-    "bg-transparent text-muted-foreground hover:bg-transparent shadow-none";
+    "bg-transparent text-muted-foreground hover:bg-transparent shadow-none dark:hover:text-white hover:text-black";
 
   return (
     <div className="grid grid-cols-12">

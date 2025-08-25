@@ -37,7 +37,7 @@ export default function MainContent({
 }) {
   const activeTagClass = "bg-green-500 text-white hover:bg-green-500";
   const notActiveTagClass =
-    "bg-transparent text-muted-foreground hover:bg-transparent shadow-none";
+    "bg-transparent text-muted-foreground hover:bg-transparent shadow-none dark:hover:text-white hover:text-black";
 
   const latestCommentary = [...summaryData.commentary].reverse().slice(0, 3);
 
