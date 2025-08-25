@@ -11,43 +11,48 @@ import {
   CardContent,
   CardDescription,
 } from "@/components/ui/card";
+import SportsData from "@/lib/leagueData";
 
-import LeftSidebar from "../sidebars/LeftSidebar";
-import RightSidebar from "../sidebars/RightSidebar";
+import LeftSidebar from "../../sidebars/LeftSidebar";
+import RightSidebar from "../../sidebars/RightSidebar";
 import CommentaryContent from "./commentaryContent/MainContent";
+
 interface PageProps {
-  params: Promise<{ league: string; date: string; eventSlug: string }>;
+  params: Promise<{
+    league: string;
+    eventId: string;
+    eventSlug: string;
+    eventParams: string;
+  }>;
 }
 
 export default async function Page({ params }: PageProps) {
-  const { league, date, eventSlug } = await params;
+  const { league, eventId, eventSlug, eventParams } = await params;
 
-  const dt = DateTime.fromFormat(date, "yyyyLLdd");
-
-  if (!dt.isValid) {
-    return <p>Invalid date format.</p>;
-  }
-
-  const yesterday = dt.minus({ days: 1 }).toFormat("yyyyLLdd");
-  const tomorrow = dt.plus({ days: 1 }).toFormat("yyyyLLdd");
-
-  const schedules = await getAllLeagueSchedules(yesterday, tomorrow);
-  const leagueObj = schedules.find((item) => slugify(item.league) === league);
+  const leagueObj = SportsData.find((item) => slugify(item.name) === league);
 
   if (!leagueObj) {
     return <p>League not found.</p>;
   }
 
-  const eventObj = leagueObj.events.find(
-    (event) => slugify(event.name) === eventSlug
-  );
+  const summaryData = await fetchEventSummary(leagueObj.slug, eventId);
 
-  if (!eventObj) {
-    return <p>Event not found.</p>;
+  const paramsArry: string[] = [
+    "commentary",
+    "statistics",
+    "lineups",
+  ];
+
+  if (paramsArry.includes(eventParams) === false) {
+    return <p>Params not found.</p>;
   }
 
-
-  const summaryData = await fetchEventSummary(leagueObj.slug, eventObj.id);
+  const paramsData = {
+    league,
+    eventId,
+    eventSlug,
+    eventParams,
+  };
 
   return (
     <main>
@@ -65,7 +70,13 @@ export default async function Page({ params }: PageProps) {
           </div>
           {/* Main Content */}
           <div className="col-span-12 lg:col-span-9 xl:col-span-6">
-      <CommentaryContent summaryData={summaryData} leagueObj={leagueObj} />
+            <CommentaryContent
+              summaryData={summaryData}
+              leagueObj={leagueObj}
+              params={eventParams}
+              paramsArry={paramsArry}
+              paramsData={paramsData}
+            />
           </div>
           {/* Right Sidebar (only visible on xl screens) */}
           <div className="hidden lg:block lg:col-span-3 xl:col-span-3">

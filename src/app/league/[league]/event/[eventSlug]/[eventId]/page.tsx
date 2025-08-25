@@ -1,5 +1,3 @@
-// app/your-path/[league]/[date]/[eventSlug]/page.tsx
-
 import { getAllLeagueSchedules } from "@/lib/getLeagueSchedules";
 import { fetchEventSummary } from "@/lib/summaryFetch";
 import { DateTime } from "luxon";
@@ -18,7 +16,12 @@ import RightSidebar from "../sidebars/RightSidebar";
 import MainContent from "../mainContent/MainContent";
 
 interface PageProps {
-  params: Promise<{ league: string; eventId: string; eventSlug: string }>;
+  params: Promise<{
+    league: string;
+    eventId: string;
+    eventSlug: string;
+    
+  }>;
 }
 
 export default async function Page({ params }: PageProps) {
@@ -31,6 +34,11 @@ export default async function Page({ params }: PageProps) {
   }
 
   const summaryData = await fetchEventSummary(leagueObj.slug, eventId);
+
+
+  const paramsData = {
+    league, eventId, eventSlug
+  }
 
   return (
     <main>
@@ -48,7 +56,7 @@ export default async function Page({ params }: PageProps) {
           </div>
           {/* Main Content */}
           <div className="col-span-12 lg:col-span-9 xl:col-span-6">
-            <MainContent summaryData={summaryData} leagueObj={leagueObj} />
+            <MainContent summaryData={summaryData} leagueObj={leagueObj} paramsData={paramsData} />
           </div>
           {/* Right Sidebar (only visible on xl screens) */}
           <div className="hidden lg:block lg:col-span-3 xl:col-span-3">

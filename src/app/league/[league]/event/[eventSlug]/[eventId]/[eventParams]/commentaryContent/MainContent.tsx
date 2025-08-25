@@ -29,14 +29,24 @@ import moment from "moment-timezone";
 export default function MainContent({
   summaryData,
   leagueObj,
+  params,
+  paramsArry,
+  paramsData,
 }: {
   summaryData: any;
   leagueObj: any;
+  params: string;
+  paramsArry: string[];
+  paramsData: any;
 }) {
   const tabsClass =
     "data-[state=active]:!bg-green-500 data-[state=active]:text-white dark:data-[state=active]:text-foreground";
 
   const latestCommentary = [...summaryData.commentary].reverse();
+
+  const activeClass = "bg-green-500 text-white hover:bg-green-500";
+  const notActiveTagClass =
+    "bg-transparent text-muted-foreground hover:bg-transparent shadow-none";
 
   return (
     <div className="grid grid-cols-12">
@@ -153,46 +163,62 @@ export default function MainContent({
         </Card>
       </div>
 
-      <div className="col-span-12 mt-4">
-        <div className="flex w-full flex-col gap-6">
-          <Tabs defaultValue="commentary">
-            <TabsList>
-              <TabsTrigger value="summary" className={tabsClass}>
-                Summary
-              </TabsTrigger>
-              <TabsTrigger value="commentary" className={tabsClass}>
-                Commentary
-              </TabsTrigger>
-              <TabsTrigger value="statistics" className={tabsClass}>
-                Statistics
-              </TabsTrigger>
-              <TabsTrigger value="lineups" className={tabsClass}>
-                LineUps
-              </TabsTrigger>
-            </TabsList>
+      <div className="col-span-12 mt-6">
+        <div className="flex w-full flex-col gap-3">
+          <div className="flex">
+            <Card className="flex flex-row py-0 gap-0 p-1">
+              <Link
+                href={`/league/${paramsData.league}/event/${paramsData.eventSlug}/${paramsData.eventId}`}
+              >
+                <Button size="sm" className={notActiveTagClass}>
+                  Summary
+                </Button>
+              </Link>
 
-            <TabsContent value="commentary">
-              <Card>
-                <CardHeader>
-                  <CardTitle>Match Commentary</CardTitle>
-                </CardHeader>
-                <CardContent>
-                  <Table>
-                    <TableBody>
-                      {latestCommentary.map((item, index) => (
-                        <TableRow key={index}>
-                          <TableCell>{item.time.displayValue === "" ? "-" : item.time.displayValue}</TableCell>
-                          <TableCell className="whitespace-normal break-words max-w-xs">
-                            {item.text}
-                          </TableCell>
-                        </TableRow>
-                      ))}
-                    </TableBody>
-                  </Table>
-                </CardContent>
-              </Card>
-            </TabsContent>
-          </Tabs>
+              {paramsArry.map((paramItem) => {
+                const isActive = params === paramItem;
+                const activeTagClass = isActive
+                  ? activeClass
+                  : notActiveTagClass;
+
+                return (
+                  <Link
+                    href={`/league/${paramsData.league}/event/${paramsData.eventSlug}/${paramsData.eventId}/${paramItem}`}
+                    key={paramItem}
+                  >
+                    <Button size="sm" className={activeTagClass}>
+                      {paramItem.charAt(0).toUpperCase() + paramItem.slice(1)}{" "}
+                      {/* Capitalize the first letter */}
+                    </Button>
+                  </Link>
+                );
+              })}
+            </Card>
+          </div>
+
+          <Card>
+            <CardHeader>
+              <CardTitle>Match Commentary</CardTitle>
+            </CardHeader>
+            <CardContent>
+              <Table>
+                <TableBody>
+                  {latestCommentary.map((item, index) => (
+                    <TableRow key={index}>
+                      <TableCell>
+                        {item.time.displayValue === ""
+                          ? "-"
+                          : item.time.displayValue}
+                      </TableCell>
+                      <TableCell className="whitespace-normal break-words max-w-xs">
+                        {item.text}
+                      </TableCell>
+                    </TableRow>
+                  ))}
+                </TableBody>
+              </Table>
+            </CardContent>
+          </Card>
         </div>
       </div>
     </div>

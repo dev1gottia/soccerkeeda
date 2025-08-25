@@ -29,11 +29,12 @@ import moment from "moment-timezone";
 export default function MainContent({
   summaryData,
   leagueObj,
+  paramsData,
 }: {
   summaryData: any;
   leagueObj: any;
+  paramsData: any;
 }) {
-  const tabsClass = "data-[state=active]:!bg-green-500 text-white ";
   const activeTagClass = "bg-green-500 text-white hover:bg-green-500";
   const notActiveTagClass =
     "bg-transparent text-muted-foreground hover:bg-transparent shadow-none";
@@ -80,11 +81,6 @@ export default function MainContent({
   const team2Map = Object.fromEntries(
     team2Stats.map((stat: any) => [stat.name, stat.displayValue])
   );
-  const handleTabClick = (e: any, tabName: any) => {
-    e.preventDefault(); // Optionally prevent default action if needed
-    console.log(`Tab clicked: ${tabName}`);
-    // Additional logic like tracking analytics or triggering actions can be added here
-  };
 
   // Final merged stats array
   const stats = statNames.map(({ name, label }) => ({
@@ -213,17 +209,27 @@ export default function MainContent({
                 Summary
               </Button>
 
-              <Link href="/commentary">
+              <Link
+                href={`/league/${paramsData.league}/event/${paramsData.eventSlug}/${paramsData.eventId}/commentary`}
+              >
                 <Button size="sm" className={notActiveTagClass}>
                   Commentary
                 </Button>
               </Link>
-              <Button size="sm" className={notActiveTagClass}>
-                Statistics
-              </Button>
-              <Button size="sm" className={notActiveTagClass}>
-                Lineups
-              </Button>
+              <Link
+                href={`/league/${paramsData.league}/event/${paramsData.eventSlug}/${paramsData.eventId}/statistics`}
+              >
+                <Button size="sm" className={notActiveTagClass}>
+                  Statistics
+                </Button>
+              </Link>
+              <Link
+                href={`/league/${paramsData.league}/event/${paramsData.eventSlug}/${paramsData.eventId}/lineups`}
+              >
+                <Button size="sm" className={notActiveTagClass}>
+                  Lineups
+                </Button>
+              </Link>
             </Card>
           </div>
 
