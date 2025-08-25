@@ -148,12 +148,14 @@ export default function MainContent({
               )}
 
               {summaryData.header.competitions[0].status.type.state ===
-                "in" && (
-                <span className="font-bold text-4xl">
-                  {summaryData.header.competitions[0].competitors[1].score} -{" "}
-                  {summaryData.header.competitions[0].competitors[0].score}
-                </span>
-              )}
+                "post" &&
+                summaryData.header.competitions[0].status.type.completed ===
+                  true && (
+                  <span className="font-bold text-4xl">
+                    {summaryData.header.competitions[0].competitors[1].score} -{" "}
+                    {summaryData.header.competitions[0].competitors[0].score}
+                  </span>
+                )}
 
               {/* <span className="font-bold text-4xl">
                       {summaryData.header.competitions[0].competitors[1].score}{" "}
@@ -272,7 +274,7 @@ export default function MainContent({
               </Table>
 
               <Link
-                href="commentary"
+                href={`/league/${paramsData.league}/event/${paramsData.eventSlug}/${paramsData.eventId}/commentary`}
                 className="text-center bg-red-500 text-green-500"
               >
                 <p className="border-t pt-4 hover:underline">Full Commentary</p>
