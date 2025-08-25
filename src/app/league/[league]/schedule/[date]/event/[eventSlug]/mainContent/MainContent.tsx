@@ -36,7 +36,7 @@ export default function MainContent({
   const tabsClass = "data-[state=active]:!bg-green-500 text-white ";
   const activeTagClass = "bg-green-500 text-white hover:bg-green-500";
   const notActiveTagClass =
-    "bg-transparent text-muted-foreground hover:bg-transparent";
+    "bg-transparent text-muted-foreground hover:bg-transparent shadow-none";
 
   const latestCommentary = [...summaryData.commentary].reverse().slice(0, 3);
 
@@ -215,7 +215,7 @@ export default function MainContent({
                 Summary
               </Button>
 
-              <Link href="/">
+              <Link href="/commentary">
                 <Button size="sm" className={notActiveTagClass}>
                   Commentary
                 </Button>
@@ -238,10 +238,7 @@ export default function MainContent({
                 <TableBody>
                   <TableRow>
                     <TableCell>
-                      {latestCommentary[0].time.displayValue.replaceAll(
-                        "",
-                        "-"
-                      )}
+                      {latestCommentary[0].time.displayValue === "" ? "-" : latestCommentary[0].time.displayValue}
                     </TableCell>
                     <TableCell className="whitespace-normal break-words max-w-xs">
                       {latestCommentary[0].text}
