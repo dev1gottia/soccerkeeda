@@ -33,8 +33,10 @@ export default function MainContent({
   summaryData: any;
   leagueObj: any;
 }) {
-  const tabsClass =
-    "data-[state=active]:!bg-green-500 data-[state=active]:text-white dark:data-[state=active]:text-foreground";
+  const tabsClass = "data-[state=active]:!bg-green-500 text-white ";
+  const activeTagClass = "bg-green-500 text-white hover:bg-green-500";
+  const notActiveTagClass =
+    "bg-transparent text-muted-foreground hover:bg-transparent";
 
   const latestCommentary = [...summaryData.commentary].reverse().slice(0, 3);
 
@@ -78,6 +80,11 @@ export default function MainContent({
   const team2Map = Object.fromEntries(
     team2Stats.map((stat: any) => [stat.name, stat.displayValue])
   );
+  const handleTabClick = (e: any, tabName: any) => {
+    e.preventDefault(); // Optionally prevent default action if needed
+    console.log(`Tab clicked: ${tabName}`);
+    // Additional logic like tracking analytics or triggering actions can be added here
+  };
 
   // Final merged stats array
   const stats = statNames.map(({ name, label }) => ({
@@ -200,96 +207,95 @@ export default function MainContent({
         </Card>
       </div>
 
-      <div className="col-span-12 mt-4">
-        <div className="flex w-full flex-col gap-6">
-          <Tabs defaultValue="summary">
-            <TabsList>
-              <TabsTrigger value="summary" className={tabsClass}>
+      <div className="col-span-12 mt-6">
+        <div className="flex w-full flex-col gap-3">
+          <div className="flex">
+            <Card className="flex flex-row py-0 gap-0 p-1">
+              <Button className={activeTagClass} size="sm">
                 Summary
-              </TabsTrigger>
-              <TabsTrigger value="commentary" className={tabsClass}>
-                Commentary
-              </TabsTrigger>
-              <TabsTrigger value="statistics" className={tabsClass}>
+              </Button>
+
+              <Link href="/">
+                <Button size="sm" className={notActiveTagClass}>
+                  Commentary
+                </Button>
+              </Link>
+              <Button size="sm" className={notActiveTagClass}>
                 Statistics
-              </TabsTrigger>
-              <TabsTrigger value="lineups" className={tabsClass}>
-                LineUps
-              </TabsTrigger>
-            </TabsList>
+              </Button>
+              <Button size="sm" className={notActiveTagClass}>
+                Lineups
+              </Button>
+            </Card>
+          </div>
 
-            <TabsContent value="summary">
-              <Card>
-                <CardHeader>
-                  <CardTitle>Match Commentary</CardTitle>
-                </CardHeader>
-                <CardContent>
-                  <Table>
-                    <TableBody>
-                      <TableRow>
-                        <TableCell>
-                          {latestCommentary[0].time.displayValue.replaceAll(
-                            "",
-                            "-"
-                          )}
-                        </TableCell>
-                        <TableCell className="whitespace-normal break-words max-w-xs">
-                          {latestCommentary[0].text}
-                        </TableCell>
-                      </TableRow>
+          <Card>
+            <CardHeader>
+              <CardTitle>Match Commentary</CardTitle>
+            </CardHeader>
+            <CardContent>
+              <Table>
+                <TableBody>
+                  <TableRow>
+                    <TableCell>
+                      {latestCommentary[0].time.displayValue.replaceAll(
+                        "",
+                        "-"
+                      )}
+                    </TableCell>
+                    <TableCell className="whitespace-normal break-words max-w-xs">
+                      {latestCommentary[0].text}
+                    </TableCell>
+                  </TableRow>
 
-                      <TableRow>
-                        <TableCell>
-                          {latestCommentary[1].time.displayValue}
-                        </TableCell>
-                        <TableCell className="whitespace-normal break-words max-w-xs">
-                          {latestCommentary[1].text}
-                        </TableCell>
-                      </TableRow>
+                  <TableRow>
+                    <TableCell>
+                      {latestCommentary[1].time.displayValue}
+                    </TableCell>
+                    <TableCell className="whitespace-normal break-words max-w-xs">
+                      {latestCommentary[1].text}
+                    </TableCell>
+                  </TableRow>
 
-                      <TableRow>
-                        <TableCell>
-                          {latestCommentary[2].time.displayValue}
-                        </TableCell>
-                        <TableCell className="whitespace-normal break-words max-w-xs">
-                          {latestCommentary[2].text}
-                        </TableCell>
-                      </TableRow>
-                    </TableBody>
-                  </Table>
+                  <TableRow>
+                    <TableCell>
+                      {latestCommentary[2].time.displayValue}
+                    </TableCell>
+                    <TableCell className="whitespace-normal break-words max-w-xs">
+                      {latestCommentary[2].text}
+                    </TableCell>
+                  </TableRow>
+                </TableBody>
+              </Table>
 
-                  <Link
-                    href="commentary"
-                    className="text-center bg-red-500 text-green-500"
-                  >
-                    <p className="border-t pt-4 hover:underline">
-                      Full Commentary
-                    </p>
-                  </Link>
-                </CardContent>
-              </Card>
+              <Link
+                href="commentary"
+                className="text-center bg-red-500 text-green-500"
+              >
+                <p className="border-t pt-4 hover:underline">Full Commentary</p>
+              </Link>
+            </CardContent>
+          </Card>
 
-              <Card className="mt-4">
-                <CardHeader>
-                  <CardTitle>Match Stats</CardTitle>
-                </CardHeader>
-                <CardContent>
-                  {stats.map((stat: any) => (
-                    <MatchStatBar
-                      key={stat.label}
-                      label={stat.label}
-                      team1Label={team1.name}
-                      team2Label={team2.name}
-                      team1Value={stat.team1Value}
-                      team2Value={stat.team2Value}
-                      team1Color={team1.color}
-                      team2Color={team2.color}
-                    />
-                  ))}
-                </CardContent>
-              </Card>
-            </TabsContent>
-          </Tabs>
+          <Card className="mt-4">
+            <CardHeader>
+              <CardTitle>Match Stats</CardTitle>
+            </CardHeader>
+            <CardContent>
+              {stats.map((stat: any) => (
+                <MatchStatBar
+                  key={stat.label}
+                  label={stat.label}
+                  team1Label={team1.name}
+                  team2Label={team2.name}
+                  team1Value={stat.team1Value}
+                  team2Value={stat.team2Value}
+                  team1Color={team1.color}
+                  team2Color={team2.color}
+                />
+              ))}
+            </CardContent>
+          </Card>
         </div>
       </div>
     </div>
