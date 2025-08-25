@@ -152,14 +152,12 @@ export default function MainContent({
               )}
 
               {summaryData.header.competitions[0].status.type.state ===
-                "post" &&
-                summaryData.header.competitions[0].status.type.completed ===
-                  true && (
-                  <span className="font-bold text-4xl">
-                    {summaryData.header.competitions[0].competitors[1].score} -{" "}
-                    {summaryData.header.competitions[0].competitors[0].score}
-                  </span>
-                )}
+                "in" && (
+                <span className="font-bold text-4xl">
+                  {summaryData.header.competitions[0].competitors[1].score} -{" "}
+                  {summaryData.header.competitions[0].competitors[0].score}
+                </span>
+              )}
 
               {/* <span className="font-bold text-4xl">
                       {summaryData.header.competitions[0].competitors[1].score}{" "}
@@ -238,7 +236,9 @@ export default function MainContent({
                 <TableBody>
                   <TableRow>
                     <TableCell>
-                      {latestCommentary[0].time.displayValue === "" ? "-" : latestCommentary[0].time.displayValue}
+                      {latestCommentary[0].time.displayValue === ""
+                        ? "-"
+                        : latestCommentary[0].time.displayValue}
                     </TableCell>
                     <TableCell className="whitespace-normal break-words max-w-xs">
                       {latestCommentary[0].text}

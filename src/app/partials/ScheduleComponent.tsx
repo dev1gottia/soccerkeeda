@@ -38,7 +38,8 @@ type Props = {
 export default function ScheduleComponent({ Events, selectedDate }: Props) {
   const userTz = moment.tz.guess(); // detect user timezone
 
-  const defaultLeagueTeamLogo = "https://a.espncdn.com/combiner/i?img=/i/teamlogos/soccer/500/default-team-logo-500.png&w=500&h=500"
+  const defaultLeagueTeamLogo =
+    "https://a.espncdn.com/combiner/i?img=/i/teamlogos/soccer/500/default-team-logo-500.png&w=500&h=500";
 
   return (
     <>
@@ -63,11 +64,7 @@ export default function ScheduleComponent({ Events, selectedDate }: Props) {
             <div className="grid grid-cols-12 gap-4 max-md:grid-cols-1 ">
               {league.events.map((event: any, indexEvent: any) => (
                 <Link
-                  href={`/league/${slugify(
-                    league.league || ""
-                  )}/schedule/${moment(selectedDate).format(
-                    "YYYYMMDD"
-                  )}/event/${slugify(event.name || "")}`}
+                  href={`/league/${slugify(league.league || "")}/event/${slugify(event.name || "")}/${event.id}`}
                   className="col-span-6 grid "
                   key={indexEvent}
                 >
