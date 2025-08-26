@@ -1,3 +1,6 @@
+    export const runtime = 'edge';
+
+
 import { getAllLeagueSchedules } from "@/lib/getLeagueSchedules";
 import { fetchEventSummary } from "@/lib/summaryFetch";
 import { DateTime } from "luxon";

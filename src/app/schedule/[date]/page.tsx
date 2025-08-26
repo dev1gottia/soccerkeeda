@@ -1,5 +1,6 @@
-/* eslint-disable @next/next/no-img-element */
 // import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card";
+    export const runtime = 'edge';
+
 import LeftSidebar from "../../partials/LeftSidebar";
 import RightSidebar from "../../partials/RightSidebar";
 import { getAllLeagueSchedules } from "@/lib/getLeagueSchedules";

@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 // app/your-path/[league]/[date]/[eventSlug]/page.tsx
 
 import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card";
@@ -5,7 +6,6 @@ import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card";
 import {
   Table,
   TableBody,
-  TableCaption,
   TableCell,
   TableHead,
   TableHeader,

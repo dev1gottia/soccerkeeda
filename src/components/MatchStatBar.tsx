@@ -10,8 +10,6 @@ interface MatchStatBarProps {
 
 export default function MatchStatBar({
   label,
-  team1Label,
-  team2Label,
   team1Value,
   team2Value,
   team1Color,

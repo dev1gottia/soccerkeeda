@@ -1,3 +1,6 @@
+    export const runtime = 'edge';
+
+
 // app/your-path/[league]/[date]/[eventSlug]/page.tsx
 
 import { getAllLeagueSchedules } from "@/lib/getLeagueSchedules";

@@ -1,3 +1,5 @@
+    export const runtime = 'edge';
+
 import LeftSidebar from "./partials/LeftSidebar";
 import RightSidebar from "./partials/RightSidebar";
 import { getAllLeagueSchedules } from "@/lib/getLeagueSchedules";

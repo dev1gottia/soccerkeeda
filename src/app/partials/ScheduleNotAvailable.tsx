@@ -2,11 +2,6 @@
 "use client";
 
 import * as React from "react";
-import DateCarousel from "./DateCarousal";
-import SearchFilter from "./Filters";
-import ScheduleComponent from "./ScheduleComponent";
-import moment from "moment-timezone";
-import slugify from "@/lib/slugify";
 import { Card } from "@/components/ui/card";
 
 export default function ScheduleNotAvailable() {
