@@ -96,11 +96,11 @@ export default function MainContent({
             <CardDescription className="flex items-center gap-2">
               <img
                 src={leagueObj.image}
-                alt={leagueObj.league}
+                alt={leagueObj.name}
                 className="w-10 h-10"
               />
 
-              <CardTitle>{leagueObj.league}</CardTitle>
+              <CardTitle>{leagueObj.name}</CardTitle>
             </CardDescription>
           </CardHeader>
 

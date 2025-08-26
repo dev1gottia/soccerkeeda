@@ -1,6 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 // app/your-path/[league]/[date]/[eventSlug]/page.tsx
-"use client";
 
 import { Button } from "@/components/ui/button";
 import {
@@ -48,6 +47,52 @@ export default function MainContent({
   const notActiveTagClass =
     "bg-transparent text-muted-foreground hover:bg-transparent shadow-none dark:hover:text-white hover:text-black";
 
+  const team1 = {
+    name: summaryData.boxscore.teams[1].team.name,
+    color: "#" + summaryData.boxscore.teams[1].team.color,
+  };
+
+  const team2 = {
+    name: summaryData.boxscore.teams[0].team.name,
+    color: "#" + summaryData.boxscore.teams[0].team.color,
+  };
+
+  const statNames = [
+    { name: "shotsOnTarget", label: "Shots on Target" },
+    { name: "totalShots", label: "Shots off Target" },
+    { name: "blockedShots", label: "Blocked Shots" },
+    { name: "possessionPct", label: "Possession" },
+    { name: "wonCorners", label: "Corner Kicks" },
+    { name: "offsides", label: "Offsides" },
+    { name: "foulsCommitted", label: "Fouls" },
+    { name: "yellowCards", label: "Yellow Cards" },
+    { name: "accurateCrosses", label: "Accurate Crosses" },
+    { name: "saves", label: "Saves" },
+    { name: "effectiveTackles", label: "Effective Tackles" },
+    { name: "redCards", label: "Red Cards" },
+  ];
+
+  const team1Stats = summaryData.boxscore.teams[0].statistics.filter(
+    (stat: any) => statNames.find((item) => item.name === stat.name)
+  );
+
+  const team2Stats = summaryData.boxscore.teams[1].statistics.filter(
+    (stat: any) => statNames.find((item) => item.name === stat.name)
+  );
+
+  // Convert filtered stats to maps for quick lookup
+  const team1Map = Object.fromEntries(
+    team1Stats.map((stat: any) => [stat.name, stat.displayValue])
+  );
+  const team2Map = Object.fromEntries(
+    team2Stats.map((stat: any) => [stat.name, stat.displayValue])
+  );
+  const stats = statNames.map(({ name, label }) => ({
+    label,
+    team1Value: parseFloat(team1Map[name]) || 0,
+    team2Value: parseFloat(team2Map[name]) || 0,
+  }));
+
   return (
     <div className="grid grid-cols-12">
       <div className=" col-span-12">
@@ -56,11 +101,11 @@ export default function MainContent({
             <CardDescription className="flex items-center gap-2">
               <img
                 src={leagueObj.image}
-                alt={leagueObj.league}
+                alt={leagueObj.name}
                 className="w-10 h-10"
               />
 
-              <CardTitle>{leagueObj.league}</CardTitle>
+              <CardTitle>{leagueObj.name}</CardTitle>
             </CardDescription>
           </CardHeader>
 
@@ -196,29 +241,133 @@ export default function MainContent({
             </Card>
           </div>
 
-          <Card>
-            <CardHeader>
-              <CardTitle>Match Commentary</CardTitle>
-            </CardHeader>
-            <CardContent>
-              <Table>
-                <TableBody>
-                  {latestCommentary.map((item, index) => (
-                    <TableRow key={index}>
-                      <TableCell>
-                        {item.time.displayValue === ""
-                          ? "-"
-                          : item.time.displayValue}
-                      </TableCell>
-                      <TableCell className="whitespace-normal break-words max-w-xs">
-                        {item.text}
-                      </TableCell>
-                    </TableRow>
+          {params === "commentary" && (
+            <Card>
+              <CardHeader>
+                <CardTitle>Match Commentary</CardTitle>
+              </CardHeader>
+              <CardContent>
+                <Table>
+                  <TableBody>
+                    {latestCommentary.map((item, index) => (
+                      <TableRow key={index}>
+                        <TableCell>
+                          {item.time.displayValue === ""
+                            ? "-"
+                            : item.time.displayValue}
+                        </TableCell>
+                        <TableCell className="whitespace-normal break-words max-w-xs">
+                          {item.text}
+                        </TableCell>
+                      </TableRow>
+                    ))}
+                  </TableBody>
+                </Table>
+              </CardContent>
+            </Card>
+          )}
+
+          {params === "statistics" && (
+            <>
+              <Card>
+                <CardHeader>
+                  <CardTitle>Match Stats</CardTitle>
+                </CardHeader>
+                <CardContent>
+                  {stats.map((stat: any) => (
+                    <MatchStatBar
+                      key={stat.label}
+                      label={stat.label}
+                      team1Label={team1.name}
+                      team2Label={team2.name}
+                      team1Value={stat.team1Value}
+                      team2Value={stat.team2Value}
+                      team1Color={team1.color}
+                      team2Color={team2.color}
+                    />
                   ))}
-                </TableBody>
-              </Table>
-            </CardContent>
-          </Card>
+                </CardContent>
+              </Card>
+
+              <Card>
+                <CardHeader>
+                  <CardTitle>Head To Head Record</CardTitle>
+                </CardHeader>
+                <CardContent>
+                  <Table>
+                    <TableHeader>
+                      <TableRow>
+                        <TableHead>Team 1</TableHead>
+                        <TableHead>Score</TableHead>
+                        <TableHead>Team 2</TableHead>
+                        <TableHead>League</TableHead>
+                      </TableRow>
+                    </TableHeader>
+                    <TableBody>
+                      {summaryData.headToHeadGames[0].events.map(
+                        (event: any, index: number) => (
+                          <TableRow
+                            key={index}
+                            className="text-muted-foreground"
+                          >
+                            <TableCell>
+                              {summaryData.headToHeadGames[0].team.displayName}
+                            </TableCell>
+                            <TableCell>
+                              {event.awayTeamScore} - {event.homeTeamScore}
+                            </TableCell>
+                            <TableCell>{event.opponent.displayName}</TableCell>
+                            <TableCell>{event.leagueName}</TableCell>
+                          </TableRow>
+                        )
+                      )}
+                    </TableBody>
+                  </Table>
+                </CardContent>
+              </Card>
+
+              {summaryData.boxscore.form.map((team: any, index: number) => (
+                <Card key={index}>
+                  <CardHeader>
+                    <CardTitle>{team.team.displayName} Form</CardTitle>
+                  </CardHeader>
+                  <CardContent>
+                    <Table>
+                      <TableHeader>
+                        <TableRow>
+                          <TableHead>Result</TableHead>
+                          <TableHead>Team 1</TableHead>
+                          <TableHead>Score</TableHead>
+                          <TableHead>Team 2</TableHead>
+                          <TableHead>League</TableHead>
+                        </TableRow>
+                      </TableHeader>
+                      <TableBody>
+                        {team.events.map((event: any, index: number) => (
+                          <TableRow
+                            key={index}
+                            className="text-muted-foreground"
+                          >
+                               <TableCell>
+                              {summaryData.headToHeadGames[0].team.displayName}
+                            </TableCell>
+                            <TableCell>
+                              {summaryData.headToHeadGames[0].team.displayName}
+                            </TableCell>
+                            <TableCell>
+                              {event.awayTeamScore} - {event.homeTeamScore}
+                            </TableCell>
+                            <TableCell>{event.opponent.displayName}</TableCell>
+                            <TableCell>{event.leagueName}</TableCell>
+                          </TableRow>
+                        ))}
+                      </TableBody>
+                    </Table>
+                  </CardContent>
+                </Card>
+              ))}
+            </>
+          )}
         </div>
       </div>
     </div>
