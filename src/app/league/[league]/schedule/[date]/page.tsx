@@ -1,21 +1,11 @@
-/* eslint-disable @next/next/no-img-element */
-// import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card";
+export const runtime = "edge";
+
 import LeftSidebar from "../../../../partials/LeftSidebar";
 import RightSidebar from "../../../../partials/RightSidebar";
-import DateCarousel from "../../../../partials/DateCarousal";
-import ScheduleComponent from "../../../../partials/ScheduleComponent";
 import { getAllLeagueSchedules } from "@/lib/getLeagueSchedules";
 import MainContent from "../../../../partials/MainContent";
 import { DateTime } from "luxon";
 import SportsData from "@/lib/leagueData";
-
-import {
-  Carousel,
-  CarouselContent,
-  CarouselItem,
-  CarouselNext,
-  CarouselPrevious,
-} from "@/components/ui/carousel";
 
 export type SportsDataType = {
   name: string;
@@ -58,18 +48,17 @@ const BlogData: BlogDataType[] = [
 ];
 
 interface PageProps {
-  params: Promise<{ league: string, date : string }>;
+  params: Promise<{ league: string; date: string }>;
 }
 
 export default async function Page({ params }: PageProps) {
-  const { league, date } = await params;  
+  const { league, date } = await params;
 
   const dt = DateTime.fromFormat(date, "yyyyLLdd");
   const yesterday = dt.minus({ days: 1 }).toFormat("yyyyLLdd");
   const tomorrow = dt.plus({ days: 1 }).toFormat("yyyyLLdd");
   const schedules = await getAllLeagueSchedules(yesterday, tomorrow);
-  
-  
+
   return (
     <main>
       <div className="container mx-auto my-5 px-4">
@@ -87,7 +76,11 @@ export default async function Page({ params }: PageProps) {
           <div className="col-span-12 lg:col-span-9 xl:col-span-8">
             {/* <DateCarousel /> */}
 
-            <MainContent schedules={schedules} leagueParam={league} date={date} />
+            <MainContent
+              schedules={schedules}
+              leagueParam={league}
+              date={date}
+            />
           </div>
 
           {/* Right Sidebar (only visible on xl screens) */}

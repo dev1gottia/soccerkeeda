@@ -24,11 +24,7 @@ type EventsDataType = {
   status: string;
 };
 
-type EventsType = {
-  name: string;
-  image: string;
-  events: EventsDataType[];
-};
+
 
 type Props = {
   Events: any;

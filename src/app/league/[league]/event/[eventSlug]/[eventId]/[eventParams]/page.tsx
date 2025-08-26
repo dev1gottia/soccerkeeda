@@ -3,17 +3,9 @@
 
 // app/your-path/[league]/[date]/[eventSlug]/page.tsx
 
-import { getAllLeagueSchedules } from "@/lib/getLeagueSchedules";
 import { fetchEventSummary } from "@/lib/summaryFetch";
-import { DateTime } from "luxon";
 import slugify from "@/lib/slugify";
-import {
-  Card,
-  CardHeader,
-  CardTitle,
-  CardContent,
-  CardDescription,
-} from "@/components/ui/card";
+
 import SportsData from "@/lib/leagueData";
 
 import LeftSidebar from "../../sidebars/LeftSidebar";

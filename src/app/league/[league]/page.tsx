@@ -1,21 +1,11 @@
-/* eslint-disable @next/next/no-img-element */
-// import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card";
+export const runtime = "edge";
+
 import LeftSidebar from "../../partials/LeftSidebar";
 import RightSidebar from "../../partials/RightSidebar";
-import DateCarousel from "../../partials/DateCarousal";
-import ScheduleComponent from "../../partials/ScheduleComponent";
 import { getAllLeagueSchedules } from "@/lib/getLeagueSchedules";
 import MainContent from "../../partials/MainContent";
 import { DateTime } from "luxon";
 import SportsData from "@/lib/leagueData";
-
-import {
-  Carousel,
-  CarouselContent,
-  CarouselItem,
-  CarouselNext,
-  CarouselPrevious,
-} from "@/components/ui/carousel";
 
 export type SportsDataType = {
   name: string;
@@ -28,7 +18,6 @@ export type BlogDataType = {
   title: string;
   description: string;
 };
-
 
 const BlogData: BlogDataType[] = [
   {
