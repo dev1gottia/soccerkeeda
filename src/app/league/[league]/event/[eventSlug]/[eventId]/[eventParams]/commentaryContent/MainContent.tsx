@@ -392,15 +392,11 @@ export default function MainContent({
                             >
                               {event.gameResult}
                             </TableCell>
+                            <TableCell>{team.team.displayName}</TableCell>
                             <TableCell>
-                              {summaryData.headToHeadGames[0].team.displayName}
+                              {event.homeTeamScore} - {event.awayTeamScore}
                             </TableCell>
-                            <TableCell>
-                              {summaryData.headToHeadGames[0].team.displayName}
-                            </TableCell>
-                            <TableCell>
-                              {event.awayTeamScore} - {event.homeTeamScore}
-                            </TableCell>
+                            <TableCell>{event.opponent.displayName}</TableCell>
                             <TableCell>{event.opponent.displayName}</TableCell>
                             <TableCell>{event.leagueName}</TableCell>
                           </TableRow>
