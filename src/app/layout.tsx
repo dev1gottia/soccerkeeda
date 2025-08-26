@@ -3,6 +3,7 @@ import "./globals.css";
 import { ThemeProvider } from "@/components/theme-provider";
 import Navbar from "@/components/Navbar";
 import { Sofia_Sans } from "next/font/google"; // 👈 import font
+import ProgressBar from "@/components/ProgressBar"; // 👈 import
 
 // Configure the font
 const sofiaSans = Sofia_Sans({
@@ -32,6 +33,7 @@ export default function RootLayout({
           enableSystem
           disableTransitionOnChange
         >
+          <ProgressBar />
           <Navbar />
           {children}
         </ThemeProvider>
