@@ -101,6 +101,12 @@ const SportsData: SportsDataType[] = [
     image:
       "https://a.espncdn.com/combiner/i?img=/i/teamlogos/soccer/500/default-team-logo-500.png&w=30&h=30",
   },
+    {
+    name: "English Carabao Cup",
+    slug: "eng.league_cup",
+    image:
+      "https://a.espncdn.com/combiner/i?img=/i/leaguelogos/soccer/500/41.png&transparent=true&w=30&h=30",
+  },
 ];
 
 export default SportsData;

@@ -42,6 +42,7 @@ export default function MainContent({
     "data-[state=active]:!bg-green-500 data-[state=active]:text-white dark:data-[state=active]:text-foreground";
 
   const latestCommentary = [...summaryData.commentary].reverse();
+  const latestKeyevents = [...summaryData.keyEvents].reverse();
 
   const activeClass = "bg-green-500 text-white hover:bg-green-500";
   const notActiveTagClass =
@@ -247,22 +248,52 @@ export default function MainContent({
                 <CardTitle>Match Commentary</CardTitle>
               </CardHeader>
               <CardContent>
-                <Table>
-                  <TableBody>
-                    {latestCommentary.map((item, index) => (
-                      <TableRow key={index}>
-                        <TableCell>
-                          {item.time.displayValue === ""
-                            ? "-"
-                            : item.time.displayValue}
-                        </TableCell>
-                        <TableCell className="whitespace-normal break-words max-w-xs">
-                          {item.text}
-                        </TableCell>
-                      </TableRow>
-                    ))}
-                  </TableBody>
-                </Table>
+                <Tabs defaultValue="commentary">
+                  <TabsList className="mb-5 border bg-card">
+                    <TabsTrigger value="commentary" className={tabsClass}>
+                      Commentary
+                    </TabsTrigger>
+                    <TabsTrigger value="keyevents" className={tabsClass}>
+                      Keyevents
+                    </TabsTrigger>
+                  </TabsList>
+
+                  <TabsContent value="commentary">
+                    <Table>
+                      <TableBody>
+                        {latestCommentary.map((item, index) => (
+                          <TableRow key={index}>
+                            <TableCell>
+                              {item.time.displayValue === ""
+                                ? "-"
+                                : item.time.displayValue}
+                            </TableCell>
+                            <TableCell className="whitespace-normal break-words max-w-xs">
+                              {item.text}
+                            </TableCell>
+                          </TableRow>
+                        ))}
+                      </TableBody>
+                    </Table>
+                  </TabsContent>
+
+                  <TabsContent value="keyevents">
+                    <Table>
+                      <TableBody>
+                        {latestKeyevents.map((item, index) => (
+                          <TableRow key={index}>
+                            <TableCell>
+                              {item.clock.displayValue === ""
+                                ? "-"
+                                : item.clock.displayValue}
+                            </TableCell>
+                            <TableCell>{item.type.text}</TableCell>
+                          </TableRow>
+                        ))}
+                      </TableBody>
+                    </Table>
+                  </TabsContent>
+                </Tabs>
               </CardContent>
             </Card>
           )}
@@ -348,7 +379,20 @@ export default function MainContent({
                             key={index}
                             className="text-muted-foreground"
                           >
-                               <TableCell>
+                            <TableCell
+                              className={
+                                event.gameResult === "W"
+                                  ? "text-green-500"
+                                  : event.gameResult === "L"
+                                  ? "text-red-500"
+                                  : event.gameResult === "D"
+                                  ? "text-muted-foreground"
+                                  : ""
+                              }
+                            >
+                              {event.gameResult}
+                            </TableCell>
+                            <TableCell>
                               {summaryData.headToHeadGames[0].team.displayName}
                             </TableCell>
                             <TableCell>
